@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 	"math/rand/v2"
-	"time"
 	"sync"
+	"time"
 
 	"gocv.io/x/gocv"
 )
@@ -15,6 +15,7 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 	defer wg.Done()
 	img := gocv.NewMat()
 	defer img.Close()
+	carDataDB.CreateCarDataTableIf()
 
 	for {
 		camera.Read(&img)
