@@ -17,6 +17,9 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 	defer img.Close()
 	carDataDB.CreateCarDataTableIf()
 
+	camera.Set(gocv.VideoCaptureFrameWidth, 640)
+	camera.Set(gocv.VideoCaptureFrameHeight, 480)
+
 	for {
 		camera.Read(&img)
 		if img.Empty() {
