@@ -2,9 +2,15 @@ package main
 
 import (
 	"GO/cmd/car-data-capture/capture"
+	"gocv.io/x/gocv"
+	"log"
+	"sync"
 )
 
 func main() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+
 	camera, err := gocv.OpenVideoCapture(0)
 	if err != nil {
 		log.Fatal(err)
@@ -14,5 +20,6 @@ func main() {
 	var speed float64
 	var steering float64
 
-	go capture.CaptureLoop(camera, &speed, &steering)
+	go captureData.CaptureLoop(&wg, camera, &speed, &steering)
+	wg.Wait()
 }

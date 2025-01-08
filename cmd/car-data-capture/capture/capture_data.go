@@ -6,11 +6,13 @@ import (
 	"log"
 	"math/rand/v2"
 	"time"
+	"sync"
 
 	"gocv.io/x/gocv"
 )
 
-func CaptureLoop(camera *gocv.VideoCapture, speed, steering *float64) error {
+func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering *float64) error {
+	defer wg.Done()
 	img := gocv.NewMat()
 	defer img.Close()
 
