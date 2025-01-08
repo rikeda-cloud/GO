@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go_p/db"
-	"go_p/handlers"
+	"GO/cmd/annotation/handlers"
+	"GO/internal/db"
 	"log"
 
 	"github.com/labstack/echo/v4"
@@ -27,7 +27,7 @@ func main() {
 	initCarData()
 	wsHandler := handlers.NewImageClickHandler()
 	e := echo.New()
-	e.Static("/", "./static")
+	e.Static("/", "./cmd/annotation/static")
 	e.Static("/images/", "./images/")
 	e.GET("/ws", wsHandler.ImageClickHandler)
 	e.Logger.Fatal(e.Start(":8000"))

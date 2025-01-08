@@ -13,7 +13,7 @@ type CarData struct {
 
 var (
 	DBMS   = "sqlite3"
-	DBName = "db/car_data.db"
+	DBName = "car_data.db"
 
 	CreateCarDataTableSQL = `
 		CREATE TABLE IF NOT EXISTS car_data(

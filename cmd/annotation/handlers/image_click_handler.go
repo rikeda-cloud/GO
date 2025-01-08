@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"GO/internal/db"
+	point "GO/internal/utils"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"go_p/db"
-	point "go_p/utils"
 
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"

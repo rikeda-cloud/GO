@@ -1,4 +1,4 @@
-module go_p
+module GO
 
 go 1.23.4
 
