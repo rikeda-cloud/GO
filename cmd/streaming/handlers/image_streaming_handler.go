@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"GO/internal/frame_handler"
 	"github.com/labstack/echo/v4"
 	"gocv.io/x/gocv"
 )
@@ -41,6 +42,8 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 			log.Println("Error Capture Image")
 			continue
 		}
+
+		img = frameHandler.ConvertToHough(img)
 
 		buf, err := gocv.IMEncode(".png", img)
 		if err != nil {
