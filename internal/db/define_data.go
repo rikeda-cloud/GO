@@ -47,6 +47,13 @@ var (
 		ORDER BY id ASC
 		LIMIT 1;`
 
+	SelectRemainImageCountSQL = `
+		SELECT COUNT(*)
+		FROM car_data
+		WHERE
+			mark_flag = 0;
+	`
+
 	DeleteCarDataSQL = `
 		DELETE
 		FROM car_data

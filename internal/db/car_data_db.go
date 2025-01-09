@@ -65,6 +65,22 @@ func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
 	return &carData, nil
 }
 
+func SelectRemainImageCount() (int, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return -1, err
+	}
+
+	var count int
+	err = db.QueryRow(SelectRemainImageCountSQL).Scan(&count)
+	if err != nil {
+		return -1, err
+	}
+
+	return count, nil
+}
+
 func DeleteCarData(file_name string) error {
 	cfg := config.GetConfig()
 	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
