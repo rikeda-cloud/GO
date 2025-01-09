@@ -34,6 +34,9 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 	c.Response().Header().Set("Content-Type", "multipart/x-mixed-replace; boundary=frame")
 
 	for {
+		// フレームレート調整 (30FPSの場合: 33msのスリープ)
+		time.Sleep(33 * time.Millisecond)
+
 		if ok := wsh.camera.Read(&img); !ok || img.Empty() {
 			log.Println("Error Capture Image")
 			continue
@@ -46,20 +49,17 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 
 		// フレームをストリームとして送信
 		if _, err := c.Response().Write([]byte("--frame\r\n")); err != nil {
-			return err
+			continue
 		}
 		if _, err := c.Response().Write([]byte("Content-Type: image/jpeg\r\n\r\n")); err != nil {
-			return err
+			continue
 		}
 		if _, err := c.Response().Write(buf.GetBytes()); err != nil {
-			return err
+			continue
 		}
 		if _, err := c.Response().Write([]byte("\r\n")); err != nil {
-			return err
+			continue
 		}
 		c.Response().Flush()
-
-		// フレームレート調整 (30FPSの場合: 33msのスリープ)
-		time.Sleep(33 * time.Millisecond)
 	}
 }
