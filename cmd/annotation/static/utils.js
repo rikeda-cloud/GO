@@ -48,8 +48,8 @@ function drawFinish() {
 	const canvas = document.getElementById('canvas');
 	const ctx = canvas.getContext('2d');
 
-	canvas.width = 640;
-	canvas.height = 480;
+	canvas.width = 500;
+	canvas.height = 500;
 
 	ctx.font = '24px Arial';
 	ctx.fillStyle = 'black';
