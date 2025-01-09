@@ -44,7 +44,7 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 		}
 
 		start := time.Now()
-		houghImg := frameHandler.ConvertToHough(img)
+		houghImg := frameHandler.ConvertToHough(&img)
 		log.Println(time.Since(start))
 
 		buf, err := gocv.IMEncode(".png", houghImg)
