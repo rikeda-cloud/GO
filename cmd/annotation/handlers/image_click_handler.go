@@ -3,7 +3,7 @@ package handlers
 import (
 	"GO/internal/config"
 	"GO/internal/db"
-	point "GO/internal/utils"
+	"GO/internal/point"
 	"database/sql"
 	"encoding/json"
 	"fmt"
