@@ -20,5 +20,18 @@
 		"device_number": 0,
 		"width": 640,
 		"height": 480
+	},
+	"frame": {
+		"canny": {
+			"threshold1": 100,
+			"threshold2": 200
+		},
+		"hough": {
+			"rho": 8.0,
+			"step": 60.0
+			"threshold": 100,
+			"min_line_length": 100.0,
+			"max_line_gap": 5.0
+		}
 	}
 }

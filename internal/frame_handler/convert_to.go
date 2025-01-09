@@ -1,6 +1,7 @@
 package frameHandler
 
 import (
+	"GO/internal/config"
 	"image"
 	"image/color"
 	"math"
@@ -15,14 +16,21 @@ func ConvertToGray(frame *gocv.Mat) gocv.Mat {
 }
 
 func ConvertToCanny(frame *gocv.Mat) gocv.Mat {
+	cfg := config.GetConfig()
 	grayFrame := ConvertToGray(frame)
 	defer grayFrame.Close()
 	cannyFrame := gocv.NewMat()
-	gocv.Canny(grayFrame, &cannyFrame, 100, 200)
+	gocv.Canny(
+		grayFrame,
+		&cannyFrame,
+		cfg.Frame.Canny.Threshold1,
+		cfg.Frame.Canny.Threshold2,
+	)
 	return cannyFrame
 }
 
 func DetectHoughData(frame *gocv.Mat) gocv.Mat {
+	cfg := config.GetConfig()
 	cannyFrame := ConvertToCanny(frame)
 	defer cannyFrame.Close()
 
@@ -31,11 +39,11 @@ func DetectHoughData(frame *gocv.Mat) gocv.Mat {
 	gocv.HoughLinesPWithParams(
 		cannyFrame,
 		&lines,
-		8.0,
-		math.Pi/60.0,
-		100,
-		100.0,
-		5.0,
+		cfg.Frame.Hough.Rho,
+		math.Pi/cfg.Frame.Hough.Step,
+		cfg.Frame.Hough.Threshold,
+		cfg.Frame.Hough.MinLineLength,
+		cfg.Frame.Hough.MaxLineGap,
 	)
 	return lines
 }

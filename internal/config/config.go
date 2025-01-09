@@ -29,6 +29,19 @@ type Config struct {
 		Width        int `json:"width"`
 		Height       int `json:"height"`
 	} `json:"camera"`
+	Frame struct {
+		Canny struct {
+			Threshold1 int `json:"threshold1"`
+			Threshold2 int `json:"threshold2"`
+		} `json:"canny"`
+		Hough struct {
+			Rho           float64 `json:"rho"`
+			Step          float64 `json:"step"`
+			Threshold     int64   `json:"threshold"`
+			MinLineLength float64 `json:"min_line_length"`
+			MaxLineGap    float64 `json:"max_line_gap"`
+		} `json:"hough"`
+	} `json:"frame"`
 }
 
 var (
