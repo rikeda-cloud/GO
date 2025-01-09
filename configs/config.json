@@ -10,7 +10,8 @@
 		}
 	},
 	"database": {
-		"file_path": "db.sqlite"
+		"dbms": "sqlite3",
+		"file_path": "car_data.db"
 	},
 	"image": {
 		"dir_path": "images/"

@@ -18,6 +18,7 @@ type Config struct {
 		} `json:"streaming"`
 	} `json:"app"`
 	Database struct {
+		DBMS     string `json:"dbms"`
 		FilePath string `json:"file_path"`
 	} `json:"database"`
 	Image struct {

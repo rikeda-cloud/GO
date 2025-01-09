@@ -1,13 +1,15 @@
 package carDataDB
 
 import (
+	"GO/internal/config"
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func CreateCarDataTableIf() error {
-	db, err := sql.Open(DBMS, DBName)
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return err
 	}
@@ -16,7 +18,8 @@ func CreateCarDataTableIf() error {
 }
 
 func InsertCarData(file_name string, car_speed float64, car_steering float64) error {
-	db, err := sql.Open(DBMS, DBName)
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return err
 	}
@@ -25,7 +28,8 @@ func InsertCarData(file_name string, car_speed float64, car_steering float64) er
 }
 
 func UpdateCarData(file_name string, ideal_speed, ideal_steering float64) error {
-	db, err := sql.Open(DBMS, DBName)
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return err
 	}
@@ -34,7 +38,8 @@ func UpdateCarData(file_name string, ideal_speed, ideal_steering float64) error 
 }
 
 func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
-	db, err := sql.Open(DBMS, DBName)
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +66,8 @@ func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
 }
 
 func DeleteCarData(file_name string) error {
-	db, err := sql.Open(DBMS, DBName)
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return err
 	}

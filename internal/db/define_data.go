@@ -12,9 +12,6 @@ type CarData struct {
 }
 
 var (
-	DBMS   = "sqlite3"
-	DBName = "car_data.db"
-
 	CreateCarDataTableSQL = `
 		CREATE TABLE IF NOT EXISTS car_data(
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
