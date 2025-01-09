@@ -27,10 +27,13 @@ func main() {
 		log.Fatal(err)
 	}
 	initCarData()
-	wsHandler := handlers.NewImageClickHandler()
+	imageClickHandler := handlers.NewImageClickHandler()
+	remainCountHandler := handlers.NewRemainImageCountHandler()
+
 	e := echo.New()
 	e.Static("/", cfg.App.Annotation.StaticDir)
 	e.Static("/images/", cfg.Image.DirPath)
-	e.GET("/ws", wsHandler.ImageClickHandler)
+	e.GET("/ws", imageClickHandler.ImageClickHandler)
+	e.GET("/ws/remain-count", remainCountHandler.RemainImageCountHandler)
 	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }

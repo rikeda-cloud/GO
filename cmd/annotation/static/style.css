@@ -73,3 +73,30 @@ img {
     margin-top: 10px;
     cursor: pointer;
 }
+
+#remainImageCount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#remainImageCount.low {
+    background-color: #2ecc71;
+    color: #ffffff;
+}
+
+#remainImageCount.medium {
+    background-color: #f39c12;
+    color: #ffffff;
+}
+
+#remainImageCount.high {
+    background-color: #ff4136;
+    color: #ffffff;
+}
