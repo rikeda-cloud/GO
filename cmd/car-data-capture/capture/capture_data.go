@@ -31,7 +31,10 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 			log.Fatal("Error: gocv.IMWrite()")
 		}
 
-		carDataDB.InsertCarData(fileName, *speed, *steering)
+		sp := *speed
+		st := *steering
+		carDataDB.InsertCarData(fileName, sp, st)
+		fmt.Printf("Capture: %s(%f, %f)\n", fileName, sp, st)
 
 		time.Sleep(100 * time.Millisecond)
 	}
