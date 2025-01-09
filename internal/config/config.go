@@ -25,21 +25,21 @@ type Config struct {
 		DirPath string `json:"dir_path"`
 	} `json:"image"`
 	Camera struct {
-		DeviceNumber int `json:"device_number"`
-		Width        int `json:"width"`
-		Height       int `json:"height"`
+		DeviceNumber int     `json:"device_number"`
+		Width        float64 `json:"width"`
+		Height       float64 `json:"height"`
 	} `json:"camera"`
 	Frame struct {
 		Canny struct {
-			Threshold1 int `json:"threshold1"`
-			Threshold2 int `json:"threshold2"`
+			Threshold1 float32 `json:"threshold1"`
+			Threshold2 float32 `json:"threshold2"`
 		} `json:"canny"`
 		Hough struct {
-			Rho           float64 `json:"rho"`
-			Step          float64 `json:"step"`
-			Threshold     int64   `json:"threshold"`
-			MinLineLength float64 `json:"min_line_length"`
-			MaxLineGap    float64 `json:"max_line_gap"`
+			Rho           float32 `json:"rho"`
+			Step          float32 `json:"step"`
+			Threshold     int     `json:"threshold"`
+			MinLineLength float32 `json:"min_line_length"`
+			MaxLineGap    float32 `json:"max_line_gap"`
 		} `json:"hough"`
 	} `json:"frame"`
 }
