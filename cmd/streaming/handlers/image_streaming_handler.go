@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"bytes"
-	"image/png"
 	"log"
 	"time"
 
@@ -17,7 +15,7 @@ type ImageStreamingHandler struct {
 func NewImageStreamingHandler() *ImageStreamingHandler {
 	camera, err := gocv.OpenVideoCapture(0)
 	if err != nil {
-		log.Fatalf(err)
+		log.Fatal(err)
 	}
 	camera.Set(gocv.VideoCaptureFrameWidth, 640)
 	camera.Set(gocv.VideoCaptureFrameHeight, 480)
@@ -41,8 +39,8 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 			continue
 		}
 
-		buf := new(bytes.Buffer)
-		if err := png.Encode(buf, gocv.IMEncode(".png", img)); err != nil {
+		buf, err := gocv.IMEncode(".png", img)
+		if err != nil {
 			log.Println(err)
 		}
 
@@ -53,7 +51,7 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 		if _, err := c.Response().Write([]byte("Content-Type: image/jpeg\r\n\r\n")); err != nil {
 			return err
 		}
-		if _, err := c.Response().Write(buf.Bytes()); err != nil {
+		if _, err := c.Response().Write(buf.GetBytes()); err != nil {
 			return err
 		}
 		if _, err := c.Response().Write([]byte("\r\n")); err != nil {
