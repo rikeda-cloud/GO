@@ -4,7 +4,6 @@ import (
 	"GO/internal/db"
 	"fmt"
 	"log"
-	"math/rand/v2"
 	"sync"
 	"time"
 
@@ -32,11 +31,8 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 			log.Fatal("Error: gocv.IMWrite()")
 		}
 
-		// TODO Change Actual speed & steering
-		*speed = rand.Float64()
-		*steering = float64(rand.IntN(181) - 90)
 		carDataDB.InsertCarData(fileName, *speed, *steering)
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 	}
 }

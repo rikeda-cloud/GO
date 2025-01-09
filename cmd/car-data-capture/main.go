@@ -9,7 +9,7 @@ import (
 
 func main() {
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(2)
 
 	camera, err := gocv.OpenVideoCapture(0)
 	if err != nil {
@@ -21,5 +21,6 @@ func main() {
 	var steering float64
 
 	go captureData.CaptureLoop(&wg, camera, &speed, &steering)
+	go captureData.DriveTrainingCar(&wg, &speed, &steering)
 	wg.Wait()
 }
