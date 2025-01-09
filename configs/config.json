@@ -1,0 +1,19 @@
+{
+	"app": {
+		"annotation": {
+			"static_dir": "cmd/annotation/static",
+			"port": ":8000"
+		}
+	},
+	"database": {
+		"file_path": "db.sqlite"
+	},
+	"image": {
+		"dir_path": "images/"
+	},
+	"camera": {
+		"device_number": 0,
+		"width": 640,
+		"height": 480
+	}
+}
