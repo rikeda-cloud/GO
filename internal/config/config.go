@@ -12,6 +12,10 @@ type Config struct {
 			StaticDir string `json:"static_dir"`
 			Port      string `json:"port"`
 		} `json:"annotation"`
+		Streaming struct {
+			StaticDir string `json:"static_dir"`
+			Port      string `json:"port"`
+		} `json:"streaming"`
 	} `json:"app"`
 	Database struct {
 		FilePath string `json:"file_path"`

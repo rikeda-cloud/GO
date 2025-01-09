@@ -1,6 +1,7 @@
 package captureData
 
 import (
+	"GO/internal/config"
 	"GO/internal/db"
 	"fmt"
 	"log"
@@ -16,8 +17,9 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 	defer img.Close()
 	carDataDB.CreateCarDataTableIf()
 
-	camera.Set(gocv.VideoCaptureFrameWidth, 640)
-	camera.Set(gocv.VideoCaptureFrameHeight, 480)
+	cfg := config.GetConfig()
+	camera.Set(gocv.VideoCaptureFrameWidth, cfg.Camera.Width)
+	camera.Set(gocv.VideoCaptureFrameHeight, cfg.Camera.Height)
 
 	for {
 		camera.Read(&img)
@@ -26,7 +28,7 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 		}
 
 		fileName := fmt.Sprintf("%d.png", time.Now().UnixNano())
-		filePath := "./images/" + fileName
+		filePath := cfg.Image.DirPath + fileName
 		if ok := gocv.IMWrite(filePath, img); !ok {
 			log.Fatal("Error: gocv.IMWrite()")
 		}

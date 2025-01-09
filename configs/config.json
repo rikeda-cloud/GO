@@ -3,6 +3,10 @@
 		"annotation": {
 			"static_dir": "cmd/annotation/static",
 			"port": ":8000"
+		},
+		"streaming": {
+			"static_dir": "cmd/streaming/static",
+			"port": ":8000"
 		}
 	},
 	"database": {

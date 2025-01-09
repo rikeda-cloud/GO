@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"GO/internal/config"
 	"GO/internal/db"
 	point "GO/internal/utils"
 	"database/sql"
@@ -19,10 +20,11 @@ type ImageClickHandler struct {
 }
 
 func NewImageClickHandler() *ImageClickHandler {
+	cfg := config.GetConfig()
 	return &ImageClickHandler{
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
 		PrevDataId:           0,
-		BasePoint:            point.Point{X: 320, Y: 480},
+		BasePoint:            point.Point{X: float64(cfg.Camera.Width / 2), Y: float64(cfg.Camera.Height)},
 		MaxDistancePoint:     point.Point{X: 0, Y: 0},
 	}
 }

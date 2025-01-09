@@ -2,6 +2,7 @@ package main
 
 import (
 	"GO/cmd/car-data-capture/capture"
+	"GO/internal/config"
 	"gocv.io/x/gocv"
 	"log"
 	"sync"
@@ -11,7 +12,8 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	camera, err := gocv.OpenVideoCapture(0)
+	cfg := config.GetConfig()
+	camera, err := gocv.OpenVideoCapture(cfg.Camera.DeviceNumber)
 	if err != nil {
 		log.Fatal(err)
 	}

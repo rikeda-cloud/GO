@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"GO/internal/config"
 	"GO/internal/frame_handler"
 	"github.com/labstack/echo/v4"
 	"gocv.io/x/gocv"
@@ -14,12 +15,13 @@ type ImageStreamingHandler struct {
 }
 
 func NewImageStreamingHandler() *ImageStreamingHandler {
-	camera, err := gocv.OpenVideoCapture(0)
+	cfg := config.GetConfig()
+	camera, err := gocv.OpenVideoCapture(cfg.Camera.DeviceNumber)
 	if err != nil {
 		log.Fatal(err)
 	}
-	camera.Set(gocv.VideoCaptureFrameWidth, 640)
-	camera.Set(gocv.VideoCaptureFrameHeight, 480)
+	camera.Set(gocv.VideoCaptureFrameWidth, cfg.Camera.Width)
+	camera.Set(gocv.VideoCaptureFrameHeight, cfg.Camera.Height)
 
 	return &ImageStreamingHandler{
 		camera,

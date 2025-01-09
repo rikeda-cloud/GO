@@ -2,6 +2,7 @@ package main
 
 import (
 	"GO/cmd/annotation/handlers"
+	"GO/internal/config"
 	"GO/internal/db"
 	"log"
 
@@ -21,14 +22,15 @@ func initCarData() {
 }
 
 func main() {
+	cfg := config.GetConfig()
 	if err := carDataDB.CreateCarDataTableIf(); err != nil {
 		log.Fatal(err)
 	}
 	initCarData()
 	wsHandler := handlers.NewImageClickHandler()
 	e := echo.New()
-	e.Static("/", "./cmd/annotation/static")
-	e.Static("/images/", "./images/")
+	e.Static("/", cfg.App.Annotation.StaticDir)
+	e.Static("/images/", cfg.Image.DirPath)
 	e.GET("/ws", wsHandler.ImageClickHandler)
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }
