@@ -22,15 +22,11 @@ func ConvertToCanny(frame *gocv.Mat) gocv.Mat {
 	return cannyFrame
 }
 
-func ConvertToHough(frame *gocv.Mat) gocv.Mat {
-	houghFrame := gocv.NewMat()
-	frame.CopyTo(&houghFrame)
-
+func DetectHoughData(frame *gocv.Mat) gocv.Mat {
 	cannyFrame := ConvertToCanny(frame)
 	defer cannyFrame.Close()
 
 	lines := gocv.NewMat()
-	defer lines.Close()
 
 	gocv.HoughLinesPWithParams(
 		cannyFrame,
@@ -41,6 +37,15 @@ func ConvertToHough(frame *gocv.Mat) gocv.Mat {
 		100.0,
 		5.0,
 	)
+	return lines
+}
+
+func ConvertToHough(frame *gocv.Mat) gocv.Mat {
+	houghFrame := gocv.NewMat()
+	frame.CopyTo(&houghFrame)
+
+	lines := DetectHoughData(frame)
+	defer lines.Close()
 
 	red := color.RGBA{R: 255, G: 0, B: 0, A: 0}
 	for i := 0; i < lines.Rows(); i++ {
