@@ -36,16 +36,18 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 
 	for {
 		// フレームレート調整 (30FPSの場合: 33msのスリープ)
-		time.Sleep(33 * time.Millisecond)
+		// time.Sleep(33 * time.Millisecond)
 
 		if ok := wsh.camera.Read(&img); !ok || img.Empty() {
 			log.Println("Error Capture Image")
 			continue
 		}
 
-		img = frameHandler.ConvertToHough(img)
+		start := time.Now()
+		houghImg := frameHandler.ConvertToHough(img)
+		log.Println(time.Since(start))
 
-		buf, err := gocv.IMEncode(".png", img)
+		buf, err := gocv.IMEncode(".png", houghImg)
 		if err != nil {
 			log.Println(err)
 		}

@@ -8,29 +8,30 @@ import (
 	"gocv.io/x/gocv"
 )
 
-func ConvertToGray(frame *gocv.Mat) *gocv.Mat {
+func ConvertToGray(frame *gocv.Mat) gocv.Mat {
 	grayFrame := gocv.NewMat()
-	gocv.CvtColor(frame, &grayFrame, gocv.ColorBGRToGray)
+	gocv.CvtColor(*frame, &grayFrame, gocv.ColorBGRToGray)
 	return grayFrame
 }
 
-func ConvertToCanny(frame *gocv.Mat) *gocv.Mat {
+func ConvertToCanny(frame *gocv.Mat) gocv.Mat {
 	grayFrame := ConvertToGray(frame)
+	defer grayFrame.Close()
 	cannyFrame := gocv.NewMat()
-	gocv.Canny(
-		grayFrame,
-		&cannyFrame,
-		100,
-		200,
-	)
+	gocv.Canny(grayFrame, &cannyFrame, 100, 200)
 	return cannyFrame
 }
 
-func ConvertToHough(frame *gocv.Mat) *gocv.Mat {
+func ConvertToHough(frame *gocv.Mat) gocv.Mat {
 	houghFrame := gocv.NewMat()
 	frame.CopyTo(&houghFrame)
+
 	cannyFrame := ConvertToCanny(frame)
+	defer cannyFrame.Close()
+
 	lines := gocv.NewMat()
+	defer lines.Close()
+
 	gocv.HoughLinesPWithParams(
 		cannyFrame,
 		&lines,
@@ -40,6 +41,7 @@ func ConvertToHough(frame *gocv.Mat) *gocv.Mat {
 		100.0,
 		5.0,
 	)
+
 	red := color.RGBA{R: 255, G: 0, B: 0, A: 0}
 	for i := 0; i < lines.Rows(); i++ {
 		line := lines.GetVeciAt(i, 0)
