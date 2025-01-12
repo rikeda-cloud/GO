@@ -67,7 +67,7 @@ func (wsh *RemainImageCountHandler) WriteToWebSocket(ws *websocket.Conn) error {
 		return err
 	}
 
-	time.Sleep(time.Millisecond * 100)
+	time.Sleep(time.Millisecond * 300)
 
 	// 残り画像枚数に変化がなければ何もしない
 	if wsh.Count == count {
