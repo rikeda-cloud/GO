@@ -39,6 +39,7 @@ type ImageMarkData struct {
 	FileName string      `json:"file_name"`
 	Point    point.Point `json:"point"`
 	Control  string      `json:"control"`
+	Tags     string      `json:"tags"`
 }
 
 func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
@@ -66,6 +67,7 @@ func SendCarData(ws *websocket.Conn, fileName string, point point.Point, control
 		FileName: fileName,
 		Point:    point,
 		Control:  control,
+		Tags:     "",
 	}
 	data, err := json.Marshal(sendData)
 	if err != nil {
@@ -113,10 +115,12 @@ func (wsh *ImageClickHandler) ReadFromWebSocket(ws *websocket.Conn) error {
 	magnitude := point.CalcNormalizedMagnitude(wsh.BasePoint, clickPoint, wsh.MaxDistancePoint)
 	angle := -(point.CalcAngle(wsh.BasePoint, clickPoint))
 	reverse := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, magnitude, angle)
+	tags := data.Tags
 
 	fmt.Println("magnitude: ", magnitude)
-	fmt.Println("Angle   : ", int(angle))
-	fmt.Println("reverse : ", reverse)
+	fmt.Println("Angle    : ", int(angle))
+	fmt.Println("reverse  : ", reverse)
+	fmt.Println("tags     : ", tags)
 
-	return carDataDB.UpdateCarData(data.FileName, magnitude, angle)
+	return carDataDB.UpdateCarData(data.FileName, magnitude, angle, tags)
 }

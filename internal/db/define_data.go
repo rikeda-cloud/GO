@@ -8,6 +8,7 @@ type CarData struct {
 	IdealSpeed    float64
 	IdealSteering float64
 	MarkFlag      int
+	Tags          string
 	CreatedAt     string
 }
 
@@ -21,6 +22,7 @@ var (
 			ideal_speed REAL DEFAULT 0,
 			ideal_steering REAL DEFAULT 0,
 			mark_flag INTEGER DEFAULT 0,
+			tags TEXT DEFAULT '',
 			created_at TEXT DEFAULT (datetime('now'))
 		)`
 
@@ -34,7 +36,8 @@ var (
 		UPDATE car_data
 			SET ideal_speed = ?,
 				ideal_steering = ?,
-				mark_flag = 1
+				mark_flag = 1,
+				tags = ?
 			WHERE
 				file_name = ?;`
 
