@@ -83,7 +83,11 @@ func (wsh *ImageClickHandler) WriteToWebSocket(ws *websocket.Conn) error {
 
 	// 全てのデータがアノテーション済み
 	if err == sql.ErrNoRows {
-		return SendCarData(ws, "", point.Point{X: 0, Y: 0}, FINISH)
+		wsh.PrevDataId = 0
+		carData, err = carDataDB.SelectNoMarkedCarData(wsh.PrevDataId)
+		if err == sql.ErrNoRows {
+			return SendCarData(ws, "", point.Point{X: 0, Y: 0}, FINISH)
+		}
 	}
 	if err != nil {
 		return err
