@@ -42,7 +42,7 @@ document.getElementById("deleteButton").addEventListener("click", function(event
 		file_name: file_name,
 		point: { X: -1, Y: -1 },
 		control: "DELETE",
-		tags: "",
+		tags: getSelectedTag(),
 	};
 	ws.send(JSON.stringify(deleteData));
 })
@@ -73,7 +73,7 @@ document.getElementById("canvas").addEventListener("click", function(event) {
 			y: clickY
 		},
 		control: "NORMAL",
-		tags: "",
+		tags: getSelectedTag(),
 	};
 
 	// WebSocketでサーバにクリック座標を送信
