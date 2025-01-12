@@ -3,6 +3,7 @@ package handlers
 import (
 	"GO/internal/db"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -54,7 +55,8 @@ func (wsh *RemainImageCountHandler) RemainImageCountHandler(c echo.Context) erro
 	for {
 		// Write
 		if err := wsh.WriteToWebSocket(conn); err != nil {
-			c.Logger().Info(err)
+			fmt.Println("[Remain Write]: ", err)
+			return nil
 		}
 	}
 }

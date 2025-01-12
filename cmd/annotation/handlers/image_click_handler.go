@@ -52,12 +52,14 @@ func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
 	for {
 		// Write
 		if err := wsh.WriteToWebSocket(conn); err != nil {
-			c.Logger().Info(err)
+			fmt.Println("[Write]: ", err)
+			return nil
 		}
 
 		// Read
 		if err := wsh.ReadFromWebSocket(conn); err != nil {
-			c.Logger().Info(err)
+			fmt.Println("[Read]: ", err)
+			return nil
 		}
 	}
 }
