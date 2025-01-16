@@ -58,6 +58,12 @@ func (wsh *RemainImageCountHandler) RemainImageCountHandler(c echo.Context) erro
 			fmt.Println("[Remain Write]: ", err)
 			return nil
 		}
+
+		// Read
+		if err := wsh.ReadFromWebSocket(conn); err != nil {
+			fmt.Println("[Remain Read]: ", err)
+			return nil
+		}
 	}
 }
 
@@ -76,4 +82,12 @@ func (wsh *RemainImageCountHandler) WriteToWebSocket(ws *websocket.Conn) error {
 	errOrNil := SendRemainImageCountData(ws, count, wsh.Count)
 	wsh.Count = count
 	return errOrNil
+}
+
+func (wsh *RemainImageCountHandler) ReadFromWebSocket(ws *websocket.Conn) error {
+	_, _, err := ws.ReadMessage()
+	if err != nil {
+		return err
+	}
+	return nil
 }
