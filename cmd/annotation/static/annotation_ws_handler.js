@@ -1,5 +1,5 @@
 class AnnotationWsHandler {
-	constructor(url) {
+	constructor() {
 		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;
 		this.confirmSwitch = document.getElementById('confirmSwitch');
 		this.deleteButton = document.getElementById('deleteButton');
