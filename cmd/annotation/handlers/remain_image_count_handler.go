@@ -52,6 +52,19 @@ func (wsh *RemainImageCountHandler) RemainImageCountHandler(c echo.Context) erro
 
 	SendRemainImageCountData(conn, wsh.Count, wsh.Count)
 
+	// ゴルーチンで非ブロッキングな読み取り処理を実行
+	done := make(chan struct{}) // ゴルーチン終了を通知するチャネル
+	go func() {
+		for {
+			_, _, err := conn.ReadMessage()
+			if err != nil {
+				fmt.Println("[Remain Read]: ", err)
+				close(done)
+				break
+			}
+		}
+	}()
+
 	for {
 		// Write
 		if err := wsh.WriteToWebSocket(conn); err != nil {
@@ -59,10 +72,13 @@ func (wsh *RemainImageCountHandler) RemainImageCountHandler(c echo.Context) erro
 			return nil
 		}
 
-		// Read
-		if err := wsh.ReadFromWebSocket(conn); err != nil {
-			fmt.Println("[Remain Read]: ", err)
+		// ゴルーチンが終了したかを待つ
+		select {
+		case <-done:
+			// ゴルーチンが終了
 			return nil
+		default:
+			// ゴルーチンが終了していない場合は何もしない
 		}
 	}
 }
@@ -82,12 +98,4 @@ func (wsh *RemainImageCountHandler) WriteToWebSocket(ws *websocket.Conn) error {
 	errOrNil := SendRemainImageCountData(ws, count, wsh.Count)
 	wsh.Count = count
 	return errOrNil
-}
-
-func (wsh *RemainImageCountHandler) ReadFromWebSocket(ws *websocket.Conn) error {
-	_, _, err := ws.ReadMessage()
-	if err != nil {
-		return err
-	}
-	return nil
 }
