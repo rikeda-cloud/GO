@@ -1,9 +1,6 @@
 class CanvasImageManager {
 	static canvas = document.getElementById("canvas");
 	static ctx = CanvasImageManager.canvas.getContext("2d");
-	static MARK_SIZE = 10;
-	static FONT = '24px Arial';
-	static FILL_STYLE = 'black';
 
 	static getCanvas() {
 		return canvas;
@@ -19,13 +16,16 @@ class CanvasImageManager {
 			CanvasImageManager.ctx.drawImage(img, 0, 0);
 			// マークの描画
 			CanvasImageManager.drawMark(x, y, 'red');
+			// 半円を描画
+			CanvasImageManager.drawSemicircle();
 		};
 		img.src = imageURL;
 	}
 
 	static drawMark(x, y, color) {
+		const markSize = 10;
 		CanvasImageManager.ctx.beginPath();
-		CanvasImageManager.ctx.arc(x, y, CanvasImageManager.MARK_SIZE, 0, 2 * Math.PI);
+		CanvasImageManager.ctx.arc(x, y, markSize, 0, 2 * Math.PI);
 		CanvasImageManager.ctx.fillStyle = color;
 		CanvasImageManager.ctx.fill();
 	}
@@ -34,8 +34,21 @@ class CanvasImageManager {
 		CanvasImageManager.canvas.width = 500;
 		CanvasImageManager.canvas.height = 500;
 
-		CanvasImageManager.ctx.font = CanvasImageManager.FONT;
-		CanvasImageManager.ctx.fillStyle = CanvasImageManager.FILL_STYLE;
+		CanvasImageManager.ctx.font = '24px Arial';
+		CanvasImageManager.ctx.fillStyle = 'black';
 		CanvasImageManager.ctx.fillText(str, 50, 100);
+	}
+
+	static drawSemicircle() {
+		const centerX = CanvasImageManager.canvas.width / 2;
+		const centerY = CanvasImageManager.canvas.height;
+		const radius = centerX;
+
+		CanvasImageManager.ctx.beginPath();
+		CanvasImageManager.ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
+		CanvasImageManager.ctx.lineTo(centerX, centerY);
+		CanvasImageManager.ctx.closePath();
+		CanvasImageManager.ctx.strokeStyle = "green";
+		CanvasImageManager.ctx.stroke();
 	}
 }
