@@ -3,7 +3,7 @@ class AnnotationWsHandler {
 		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;
 		this.confirmSwitch = document.getElementById('confirmSwitch');
 		this.deleteButton = document.getElementById('deleteButton');
-		this.canvas = document.getElementById('canvas');
+		this.canvas = CanvasImageManager.getCanvas();
 		this.tags = new Tags();
 		this.fileName = "";
 		this.control = "";
@@ -40,7 +40,7 @@ class AnnotationWsHandler {
 		this.fileName = sentData.file_name;
 		this.control = sentData.control;
 		if (this.control === "FINISH") {
-			drawFinish();
+			CanvasImageManager.drawString('全てのデータがアノテーション済みです');
 		} else {
 			this.fetchImageAndDraw(this.fileName, sentData.point.x, sentData.point.y);
 		}
@@ -52,7 +52,7 @@ class AnnotationWsHandler {
 		fetchImage(imageURL)
 			.then(blob => {
 				const imageObjectURL = URL.createObjectURL(blob);
-				loadImageAndDrawMark(imageObjectURL, x, y);
+				CanvasImageManager.loadImageAndDrawMark(imageObjectURL, x, y);
 			})
 			.catch(error => {
 				console.error('There was a problem with the fetch operation:', error);
@@ -107,4 +107,16 @@ class AnnotationWsHandler {
 		};
 		this.ws.send(JSON.stringify(clickData));
 	}
+}
+
+
+// 画像を取得する関数
+async function fetchImage(url) {
+	return fetch(url)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.blob();
+		});
 }
