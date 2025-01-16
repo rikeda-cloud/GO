@@ -1,0 +1,109 @@
+class AnnotationWsHandler {
+	constructor(url, confirmSwitch, deleteButton, canvas) {
+		this.webSocketUrl = url;
+		this.confirmSwitch = confirmSwitch;
+		this.deleteButton = deleteButton;
+		this.canvas = canvas;
+		this.fileName = "";
+		this.control = "";
+		this.ws = null;
+	}
+
+	connect() {
+		this.ws = new WebSocket(this.webSocketUrl);
+
+		// WebSocketからのメッセージの受信時
+		this.ws.onmessage = (event) => {
+			this.handleMessage(event);
+		};
+
+		// WebSocketでのエラー発生時
+		this.ws.onerror = (error) => {
+			console.error("WebSocket error:", error);
+		};
+
+		// WebSocket切断時
+		this.ws.onclose = () => {
+			console.log("WebSocket connection closed.");
+		};
+
+		// 削除ボタンを押された時
+		this.deleteButton.addEventListener("click", this.deleteButtonHandler.bind(this));
+
+		// canvasに表示した画像がクリックされた時
+		this.canvas.addEventListener("click", this.imageClickHandler.bind(this));
+	}
+
+	handleMessage(event) {
+		const sentData = JSON.parse(event.data);
+		this.fileName = sentData.file_name;
+		this.control = sentData.control;
+		if (this.control === "FINISH") {
+			drawFinish();
+		} else {
+			this.fetchImageAndDraw(this.fileName, sentData.point.x, sentData.point.y);
+		}
+	}
+
+	fetchImageAndDraw(fileName, x, y) {
+		const loc = window.location;
+		const imageURL = `http://${loc.host + loc.pathname}images/${fileName}`;
+		fetchImage(imageURL)
+			.then(blob => {
+				const imageObjectURL = URL.createObjectURL(blob);
+				loadImageAndDrawMark(imageObjectURL, x, y);
+			})
+			.catch(error => {
+				console.error('There was a problem with the fetch operation:', error);
+			});
+	}
+
+	deleteButtonHandler(_) {
+		if (this.control === "FINISH") {
+			return
+		}
+		if (this.confirmSwitch.value === 'on') {
+			const userConfirmed = confirm("このデータを削除しますか？");
+			if (!userConfirmed) {
+				return
+			}
+		}
+
+		const deleteData = {
+			file_name: this.fileName,
+			point: { X: -1, Y: -1 },
+			control: "DELETE",
+			tags: getSelectedTag(),
+		};
+		this.ws.send(JSON.stringify(deleteData));
+	}
+
+	imageClickHandler(event) {
+		if (this.control === "FINISH") {
+			return
+		}
+
+		// 画像内でのクリック位置を取得
+		const rect = event.target.getBoundingClientRect();
+		const clickX = event.clientX - rect.left;
+		const clickY = event.clientY - rect.top;
+
+		if (this.confirmSwitch.value === 'on') {
+			const userConfirmed = confirm(`(${clickX},${clickY})送信しますか？`);
+			if (!userConfirmed) {
+				return
+			}
+		}
+
+		const clickData = {
+			file_name: this.fileName,
+			point: {
+				x: clickX,
+				y: clickY
+			},
+			control: "NORMAL",
+			tags: getSelectedTag(),
+		};
+		this.ws.send(JSON.stringify(clickData));
+	}
+}
