@@ -1,9 +1,10 @@
 class AnnotationWsHandler {
-	constructor(url, confirmSwitch, deleteButton, canvas) {
-		this.webSocketUrl = url;
-		this.confirmSwitch = confirmSwitch;
-		this.deleteButton = deleteButton;
-		this.canvas = canvas;
+	constructor(url) {
+		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;
+		this.confirmSwitch = document.getElementById('confirmSwitch');
+		this.deleteButton = document.getElementById('deleteButton');
+		this.canvas = document.getElementById('canvas');
+		this.tags = new Tags();
 		this.fileName = "";
 		this.control = "";
 		this.ws = null;
@@ -73,7 +74,7 @@ class AnnotationWsHandler {
 			file_name: this.fileName,
 			point: { X: -1, Y: -1 },
 			control: "DELETE",
-			tags: getSelectedTag(),
+			tags: this.tags.getSelectedTag(),
 		};
 		this.ws.send(JSON.stringify(deleteData));
 	}
@@ -102,7 +103,7 @@ class AnnotationWsHandler {
 				y: clickY
 			},
 			control: "NORMAL",
-			tags: getSelectedTag(),
+			tags: this.tags.getSelectedTag(),
 		};
 		this.ws.send(JSON.stringify(clickData));
 	}

@@ -1,20 +1,24 @@
-// カスタムタグ入力の切り替え
-const tagSelect = document.getElementById("tagSelect");
-const customTagInput = document.getElementById("customTagInput");
-
-tagSelect.addEventListener("change", () => {
-	if (tagSelect.value === "custom") {
-		customTagInput.style.display = "inline-block";
-	} else {
-		customTagInput.style.display = "none";
-		customTagInput.value = ""; // カスタム入力をクリア
+class Tags {
+	constructor() {
+		this.tagSelect = document.getElementById("tagSelect");
+		this.customTagInput = document.getElementById("customTagInput");
+		this.tagSelect.addEventListener("change", this.tagEventHandler.bind(this))
 	}
-});
 
-// タグ情報を取得する関数
-function getSelectedTag() {
-	if (tagSelect.value === "custom") {
-		return customTagInput.value;
+	tagEventHandler() {
+		if (tagSelect.value === "custom") {
+			customTagInput.style.display = "inline-block";
+		} else {
+			customTagInput.style.display = "none";
+			customTagInput.value = ""; // カスタム入力をクリア
+		}
 	}
-	return tagSelect.value;
+
+	// タグ情報を取得する関数
+	getSelectedTag() {
+		if (tagSelect.value === "custom") {
+			return customTagInput.value;
+		}
+		return tagSelect.value;
+	}
 }
