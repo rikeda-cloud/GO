@@ -25,7 +25,7 @@ func NewImageClickHandler() *ImageClickHandler {
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
 		PrevDataId:           0,
 		BasePoint:            point.Point{X: float64(cfg.Camera.Width / 2), Y: float64(cfg.Camera.Height)},
-		MaxDistancePoint:     point.Point{X: 0, Y: 0},
+		MaxDistancePoint:     point.Point{X: 0, Y: cfg.Camera.Height},
 	}
 }
 
@@ -96,7 +96,7 @@ func (wsh *ImageClickHandler) WriteToWebSocket(ws *websocket.Conn) error {
 	wsh.PrevDataId = int64(carData.ID)
 
 	magnitude := carData.CarSpeed
-	angle := -carData.CarSteering
+	angle := carData.CarSteering
 	actPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, magnitude, angle)
 
 	return SendCarData(ws, carData.FileName, actPoint, NORMAL)
