@@ -10,31 +10,14 @@
 
 <body>
 	<div>
-		<p id="remainImageCount">残り: 0</p>
+		<button id="annotation">annotation</button>
+		<button id="check">check</button>
+		<button id="ai">ai</button>
 	</div>
 	<div>
 		<canvas id="canvas"></canvas>
 	</div>
-	<div>
-		<label for="confirmSwitch">確認モード:</label>
-		<select id="confirmSwitch">
-			<option value="off">OFF</option>
-			<option value="on">ON</option>
-		</select>
-	</div>
-	<div>
-		<button id="deleteButton">DEL</button>
-	</div>
-	<div id="tagContainer">
-		<label for="tagSelect">タグ:</label>
-		<select id="tagSelect">
-			<option value="normal">normal</option>
-			<option value="in">in</option>
-			<option value="out">out</option>
-			<option value="custom">custom</option>
-		</select>
-		<input type="text" id="customTagInput" placeholder="カスタムタグを入力" style="display: none;">
-	</div>
+	<div id="app"></div>
 
 	<script src="canvas_image_manager.js"></script>
 	<script src="remain_image_ws_handler.js"></script>
