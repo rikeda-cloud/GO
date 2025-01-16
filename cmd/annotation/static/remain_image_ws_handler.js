@@ -24,6 +24,12 @@ class RemainImageWsHandler {
 		};
 	}
 
+	close() {
+		this.ws.close();
+		this.ws = null;
+		console.log("WebSocket connection manually closed.");
+	}
+
 	handleMessage(event) {
 		const sentData = JSON.parse(event.data);
 		const remainImageCount = sentData.current_count;

@@ -35,6 +35,12 @@ class AnnotationWsHandler {
 		this.canvas.addEventListener("click", this.imageClickHandler.bind(this));
 	}
 
+	close() {
+		this.ws.close();
+		this.ws = null;
+		console.log("WebSocket connection manually closed.");
+	}
+
 	handleMessage(event) {
 		const sentData = JSON.parse(event.data);
 		this.fileName = sentData.file_name;
