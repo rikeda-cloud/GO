@@ -57,6 +57,30 @@ var (
 			mark_flag = 0;
 	`
 
+	SelectNextCarDataSQL = `
+		SELECT *
+		FROM car_data
+		WHERE
+			mark_flag = 1 AND
+			id > ?
+		ORDER BY id ASC
+		LIMIT 1;`
+
+	SelectPrevCarDataSQL = `
+		SELECT *
+		FROM car_data
+		WHERE
+			mark_flag = 1 AND
+			id < ?
+		ORDER BY id DESC
+		LIMIT 1;`
+
+	SelectIdFromFileNameSQL = `
+		SELECT id
+		FROM car_data
+		WHERE
+			file_name = ?;`
+
 	DeleteCarDataSQL = `
 		DELETE
 		FROM car_data

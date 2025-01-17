@@ -66,6 +66,83 @@ func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
 	return &carData, nil
 }
 
+func SelectNextCarData(id int64) (*CarData, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow(SelectNextCarDataSQL, id)
+
+	var carData CarData
+	err = row.Scan(
+		&carData.ID,
+		&carData.FileName,
+		&carData.CarSpeed,
+		&carData.CarSteering,
+		&carData.IdealSpeed,
+		&carData.IdealSteering,
+		&carData.MarkFlag,
+		&carData.Tags,
+		&carData.CreatedAt,
+	)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return nil, err
+	}
+
+	return &carData, nil
+}
+
+func SelectPrevCarData(id int64) (*CarData, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow(SelectPrevCarDataSQL, id)
+
+	var carData CarData
+	err = row.Scan(
+		&carData.ID,
+		&carData.FileName,
+		&carData.CarSpeed,
+		&carData.CarSteering,
+		&carData.IdealSpeed,
+		&carData.IdealSteering,
+		&carData.MarkFlag,
+		&carData.Tags,
+		&carData.CreatedAt,
+	)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return nil, err
+	}
+
+	return &carData, nil
+}
+
+func SelectIdFromFileName(fileName string) (int64, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return -1, err
+	}
+	row := db.QueryRow(SelectIdFromFileNameSQL, fileName)
+
+	var id int64
+	err = row.Scan(&id)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return -1, err
+	}
+
+	return id, nil
+}
+
 func SelectRemainImageCount() (int, error) {
 	cfg := config.GetConfig()
 	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
