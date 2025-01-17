@@ -29,11 +29,13 @@ func main() {
 	initCarData()
 	imageClickHandler := handlers.NewImageClickHandler()
 	remainCountHandler := handlers.NewRemainImageCountHandler()
+	annotatedDataCheckHandler := handlers.NewAnnotatedDataCheckHandler()
 
 	e := echo.New()
 	e.Static("/", cfg.App.Annotation.StaticDir)
 	e.Static("/images/", cfg.Image.DirPath)
 	e.GET("/ws", imageClickHandler.ImageClickHandler)
 	e.GET("/ws/remain-count", remainCountHandler.RemainImageCountHandler)
+	e.GET("/ws/check", annotatedDataCheckHandler.AnnotatedDataCheckHandler)
 	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }

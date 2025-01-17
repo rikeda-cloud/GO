@@ -29,12 +29,6 @@ func NewImageClickHandler() *ImageClickHandler {
 	}
 }
 
-const (
-	NORMAL = "NORMAL"
-	DELETE = "DELETE"
-	FINISH = "FINISH"
-)
-
 type ImageMarkData struct {
 	FileName string      `json:"file_name"`
 	Point    point.Point `json:"point"`
