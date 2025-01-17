@@ -1,15 +1,19 @@
-class AnnotationWsHandler {
+class AnnotatedCheckWsHandler {
 	constructor() {
-		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;
+		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws/check`;
 		this.confirmSwitch = document.getElementById('confirmSwitch');
 		this.deleteButton = document.getElementById('deleteButton');
+		this.nextButton = document.getElementById('nextButton');
+		this.prevButton = document.getElementById('prevButton');
 		this.canvas = CanvasImageManager.getCanvas();
-		this.tags = new Tags();
+		this.tags = "";
 		this.fileName = "";
 		this.control = "";
 		this.ws = null;
-		this.imageClickHandlerBound = this.imageClickHandler.bind(this);
 		this.deleteButtonHandlerBound = this.deleteButtonHandler.bind(this);
+		this.imageClickHandlerBound = this.imageClickHandler.bind(this);
+		this.nextButtonHandlerBound = this.nextButtonHandler.bind(this);
+		this.prevButtonHandlerBound = this.prevButtonHandler.bind(this);
 	}
 
 	connect() {
@@ -35,6 +39,11 @@ class AnnotationWsHandler {
 
 		// canvasに表示した画像がクリックされた時
 		this.canvas.addEventListener("click", this.imageClickHandlerBound);
+
+		// Nextボタンを押された時
+		this.nextButton.addEventListener("click", this.nextButtonHandlerBound);
+		// Prevボタンを押された時
+		this.prevButton.addEventListener("click", this.prevButtonHandlerBound);
 	}
 
 	close() {
@@ -42,19 +51,20 @@ class AnnotationWsHandler {
 		this.ws = null;
 		this.deleteButton.removeEventListener("click", this.deleteButtonHandlerBound);
 		this.canvas.removeEventListener("click", this.imageClickHandlerBound);
-		this.tags.removeEvent();
-		this.tags = null;
+		this.nextButton.removeEventListener("click", this.nextButtonHandlerBound);
+		this.prevButton.removeEventListener("click", this.prevButtonHandlerBound);
 		console.log("WebSocket connection manually closed.");
 	}
 
 	handleMessage(event) {
 		const sentData = JSON.parse(event.data);
-		this.fileName = sentData.file_name;
 		this.control = sentData.control;
+		this.tags = sentData.tags;
 		if (this.control === "FINISH") {
-			CanvasImageManager.drawString('全てのデータがアノテーション済みです');
+			CanvasImageManager.drawString('全てのデータをチェックしました');
 		} else {
-			this.fetchImageAndDraw(this.fileName, sentData.point.x, sentData.point.y);
+			this.fileName = sentData.file_name;
+			this.fetchImageAndDraw(this.fileName, sentData.act_point.x, sentData.act_point.y);
 		}
 	}
 
@@ -84,11 +94,34 @@ class AnnotationWsHandler {
 
 		const deleteData = {
 			file_name: this.fileName,
-			point: { X: -1, Y: -1 },
+			act_point: { X: -1, Y: -1 },
+			annotated_point: { X: -1, Y: -1 },
 			control: "DELETE",
-			tags: this.tags.getSelectedTag(),
+			tags: this.tags,
 		};
 		this.ws.send(JSON.stringify(deleteData));
+	}
+
+	nextButtonHandler(_) {
+		const toNextData = {
+			file_name: this.fileName,
+			act_point: { X: -1, Y: -1 },
+			annotated_point: { X: -1, Y: -1 },
+			control: "NEXT",
+			tags: this.tags,
+		};
+		this.ws.send(JSON.stringify(toNextData));
+	}
+
+	prevButtonHandler(_) {
+		const toPrevData = {
+			file_name: this.fileName,
+			act_point: { X: -1, Y: -1 },
+			annotated_point: { X: -1, Y: -1 },
+			control: "PREV",
+			tags: this.tags,
+		};
+		this.ws.send(JSON.stringify(toPrevData));
 	}
 
 	imageClickHandler(event) {
@@ -110,12 +143,10 @@ class AnnotationWsHandler {
 
 		const clickData = {
 			file_name: this.fileName,
-			point: {
-				x: clickX,
-				y: clickY
-			},
+			act_point: { x: 0, y: 0 },
+			annotated_point: { x: clickX, y: clickX },
 			control: "NORMAL",
-			tags: this.tags.getSelectedTag(),
+			tags: this.tags,
 		};
 		this.ws.send(JSON.stringify(clickData));
 	}

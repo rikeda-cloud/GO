@@ -2,7 +2,8 @@ class Tags {
 	constructor() {
 		this.tagSelect = document.getElementById("tagSelect");
 		this.customTagInput = document.getElementById("customTagInput");
-		this.tagSelect.addEventListener("change", this.tagEventHandler.bind(this))
+		this.tagEventHandlerBound = this.tagEventHandler.bind(this);
+		this.tagSelect.addEventListener("change", this.tagEventHandlerBound);
 	}
 
 	tagEventHandler() {
@@ -20,5 +21,9 @@ class Tags {
 			return customTagInput.value;
 		}
 		return tagSelect.value;
+	}
+
+	removeEvent() {
+		this.tagSelect.removeEventListener("change", this.tagEventHandlerBound);
 	}
 }

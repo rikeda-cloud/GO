@@ -5,6 +5,7 @@ document.getElementById("ai").addEventListener("click", () => switchMode("ai"));
 
 var annotationWsHandler = null;
 var remainImageWsHandler = null;
+var annotatedCheckWsHandler = null;
 
 function switchMode(mode) {
 	clearCurrentMode();
@@ -35,6 +36,10 @@ function clearCurrentMode() {
 	if (remainImageWsHandler) {
 		remainImageWsHandler.close();
 		remainImageWsHandler = null;
+	}
+	if (annotatedCheckWsHandler) {
+		annotatedCheckWsHandler.close();
+		annotatedCheckWsHandler = null;
 	}
 }
 
@@ -75,10 +80,23 @@ function switchAnnotationMode() {
 function switchCheckMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
-        <div>
-            <h2>確認モード</h2>
-        </div>
-    `;
+	<div>
+		<button id="prevButton">Prev</button>
+		<button id="nextButton">Next</button>
+	</div>
+	<div>
+		<label for="confirmSwitch">確認モード:</label>
+		<select id="confirmSwitch">
+			<option value="off">OFF</option>
+			<option value="on">ON</option>
+		</select>
+	</div>
+	<div>
+		<button id="deleteButton">DEL</button>
+	</div>`;
+
+	annotatedCheckWsHandler = new AnnotatedCheckWsHandler();
+	annotatedCheckWsHandler.connect();
 }
 
 function switchAiMode() {
