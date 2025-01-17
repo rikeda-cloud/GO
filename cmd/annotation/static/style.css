@@ -7,7 +7,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     flex-direction: column;
 }
 
@@ -38,9 +37,8 @@ img {
 
 /* ボタンのスタイル */
 #deleteButton {
-	margin: 10px;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: white;
     background: linear-gradient(45deg, #6a5acd, #7b68ee);
@@ -70,12 +68,51 @@ img {
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    margin-top: 10px;
+    margin-top: 30px;
     cursor: pointer;
 }
 
+#confirmModeContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+	white-space: nowrap;
+}
+
+select {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+select:hover {
+    border-color: #4db8ff;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3da1e1;
+}
+
+#remainContainer {
+    align-items: center;
+    justify-content: center;    /* 水平方向で中央揃え */
+    display: flex;              /* 横並びにする */
+}
+
 #remainImageCount {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     color: #ffffff;
     background-color: #007bff;
@@ -118,6 +155,9 @@ select:focus, input[type="text"]:focus {
 }
 
 #tagContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 	margin-top: 20px;
 }
 
@@ -126,6 +166,11 @@ select:focus, input[type="text"]:focus {
 }
 
 #switchModeButtons {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index:10;
   display: flex; /* フレックスボックスでレイアウト */
   justify-content: center; /* 横方向で中央揃え（任意） */
   gap: 10px; /* ボタン間の間隔 */
@@ -155,4 +200,37 @@ select:focus, input[type="text"]:focus {
 
 #switchModeButtons button:active {
   transform: scale(1.05);
+}
+
+#canvasFrame {
+    margin-top: 80px;
+}
+
+/* nextPrevButtonsを横並びにして中央に配置 */
+#nextPrevButtons {
+    display: flex;                /* 横並びにする */
+    justify-content: center;      /* 水平方向で中央揃え */
+    gap: 20px;                    /* ボタン間の隙間を指定 */
+}
+
+/* ボタンの共通スタイル */
+#nextPrevButtons button {
+    padding: 10px 20px;           /* ボタンの内側の余白 */
+    font-size: 16px;               /* フォントサイズ */
+    border: 2px solid #007bff;    /* ボタンの枠線 */
+    background-color: #007bff;    /* 背景色 */
+    color: white;                 /* 文字色 */
+    border-radius: 5px;           /* 角を丸くする */
+    cursor: pointer;             /* ポインターが指の形に */
+    transition: background-color 0.3s; /* 背景色の遷移 */
+}
+
+/* ボタンにホバーしたときのスタイル */
+#nextPrevButtons button:hover {
+    background-color: #0056b3;   /* ホバー時の背景色 */
+}
+
+/* ボタンが押された時のスタイル */
+#nextPrevButtons button:active {
+    background-color: #003f7d;   /* 押された時の背景色 */
 }

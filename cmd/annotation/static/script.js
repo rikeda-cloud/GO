@@ -47,18 +47,18 @@ function clearCurrentMode() {
 function switchAnnotationMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
-	<div>
+	<div id="remainContainer">
 		<p id = "remainImageCount" > 残り: 0</p >
 	</div >
 	<div>
+		<button id="deleteButton">DEL</button>
+	</div>
+	<div id="confirmModeContainer">
 		<label for="confirmSwitch">確認モード:</label>
 		<select id="confirmSwitch">
 			<option value="off">OFF</option>
 			<option value="on">ON</option>
 		</select>
-	</div>
-	<div>
-		<button id="deleteButton">DEL</button>
 	</div>
 	<div id="tagContainer">
 		<label for="tagSelect">タグ:</label>
@@ -80,19 +80,19 @@ function switchAnnotationMode() {
 function switchCheckMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
-	<div>
-		<button id="prevButton">Prev</button>
-		<button id="nextButton">Next</button>
+	<div id="nextPrevButtons">
+		<button id="prevButton"><< Prev</button>
+		<button id="nextButton">Next >></button>
 	</div>
 	<div>
+		<button id="deleteButton">DEL</button>
+	</div>
+	<div id="confirmModeContainer">
 		<label for="confirmSwitch">確認モード:</label>
 		<select id="confirmSwitch">
 			<option value="off">OFF</option>
 			<option value="on">ON</option>
 		</select>
-	</div>
-	<div>
-		<button id="deleteButton">DEL</button>
 	</div>`;
 
 	annotatedCheckWsHandler = new AnnotatedCheckWsHandler();
