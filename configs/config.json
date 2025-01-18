@@ -14,7 +14,8 @@
 		"file_path": "car_data.db"
 	},
 	"image": {
-		"dir_path": "images/"
+		"dir_path": "images/",
+		"predict_dir_path": "images/"
 	},
 	"camera": {
 		"device_number": 0,

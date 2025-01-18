@@ -22,7 +22,8 @@ type Config struct {
 		FilePath string `json:"file_path"`
 	} `json:"database"`
 	Image struct {
-		DirPath string `json:"dir_path"`
+		DirPath        string `json:"dir_path"`
+		PredictDirPath string `json:"predict_dir_path"`
 	} `json:"image"`
 	Camera struct {
 		DeviceNumber int     `json:"device_number"`
