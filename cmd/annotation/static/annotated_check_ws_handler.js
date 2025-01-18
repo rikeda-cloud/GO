@@ -78,6 +78,7 @@ class AnnotatedCheckWsHandler {
 				CanvasImageManager.loadImage(imageObjectURL)
 					.then((img) => {
 						CanvasImageManager.drawImageToCanvas(img);
+						CanvasImageManager.drawMark(img.width / 2, img.height, 'white');
 						CanvasImageManager.drawMark(actPoint.x, actPoint.y, 'red');
 						CanvasImageManager.drawMark(annotatedPoint.x, annotatedPoint.y, 'yellow');
 						CanvasImageManager.drawSemicircle('green');

@@ -55,11 +55,11 @@ class AnnotationWsHandler {
 		if (this.control === "FINISH") {
 			CanvasImageManager.drawString('全てのデータがアノテーション済みです');
 		} else {
-			this.fetchImageAndDraw(this.fileName, sentData.point.x, sentData.point.y);
+			this.fetchImageAndDraw(this.fileName, sentData.point);
 		}
 	}
 
-	fetchImageAndDraw(fileName, x, y) {
+	fetchImageAndDraw(fileName, actPoint) {
 		const loc = window.location;
 		const imageURL = `http://${loc.host + loc.pathname}images/${fileName}`;
 		fetchImage(imageURL)
@@ -68,7 +68,8 @@ class AnnotationWsHandler {
 				CanvasImageManager.loadImage(imageObjectURL)
 					.then((img) => {
 						CanvasImageManager.drawImageToCanvas(img);
-						CanvasImageManager.drawMark(x, y, 'red');
+						CanvasImageManager.drawMark(img.width / 2, img.height, 'white');
+						CanvasImageManager.drawMark(actPoint.x, actPoint.y, 'red');
 						CanvasImageManager.drawSemicircle('green');
 					}).catch((error) => {
 						console.err(error);
