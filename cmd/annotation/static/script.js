@@ -6,11 +6,24 @@ document.querySelectorAll("button[data-mode]").forEach((button) => {
 	});
 });
 
+window.addEventListener("popstate", (event) => {
+	const mode = event.state?.mode || "annotation";
+	switchMode(mode, false);
+});
+
+window.addEventListener("load", () => {
+	const hash = window.location.hash.replace("#", "") || "annotation";
+	switchMode(hash, false);
+});
+
 var annotationWsHandler = null;
 var remainImageWsHandler = null;
 var annotatedCheckWsHandler = null;
 
-function switchMode(mode) {
+function switchMode(mode, pushHistory = true) {
+	if (pushHistory) {
+		history.pushState({ mode }, '', `#${mode}`);
+	}
 	clearCurrentMode();
 
 	if (mode === "annotation") {
