@@ -194,11 +194,11 @@ select:focus, input[type="text"]:focus {
 }
 
 #switchModeButtons button:hover {
-  background-color: #5d82ff;
   transform: scale(1.1);
 }
 
-#switchModeButtons button:active {
+#switchModeButtons button.active {
+  background-color: #5d82ff;
   transform: scale(1.05);
 }
 

@@ -1,14 +1,24 @@
 // モード切替ボタンにイベントを登録
 document.querySelectorAll("button[data-mode]").forEach((button) => {
 	button.addEventListener("click", (e) => {
+		// button active change
+		document.querySelectorAll("button[data-mode]").forEach(
+			btn => btn.classList.remove('active')
+		);
+		button.classList.add('active');
+
+		// mode change
 		const mode = e.target.dataset.mode;
 		switchMode(mode);
 	});
 });
 
-// サイトにアクセスした際はannotationモード
+// サイトにアクセスした際のdefaultはannotationモード
 window.addEventListener("load", () => {
 	const hash = window.location.hash.replace("#", "") || "annotation";
+	document.querySelectorAll("button[data-mode]").forEach(btn => {
+		if (btn.id == hash) { btn.classList.add('active'); }
+	});
 	switchMode(hash, false);
 });
 
