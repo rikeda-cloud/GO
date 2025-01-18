@@ -1,3 +1,4 @@
+// 機械学習モデル作成時にフィルタリングする用途で文字列データ(タグ)を管理するクラス
 class Tags {
 	constructor() {
 		this.tagSelect = document.getElementById("tagSelect");

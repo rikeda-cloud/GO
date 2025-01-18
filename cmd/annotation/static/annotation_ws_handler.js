@@ -1,3 +1,4 @@
+// annotationモードでのサーバとのデータのやり取りを管理するクラス
 class AnnotationWsHandler {
 	constructor() {
 		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;

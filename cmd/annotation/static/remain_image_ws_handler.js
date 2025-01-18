@@ -1,3 +1,4 @@
+// 未アノテーションデータの残数を表示する機能を管理するクラス
 class RemainImageWsHandler {
 	constructor() {
 		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws/remain-count`;

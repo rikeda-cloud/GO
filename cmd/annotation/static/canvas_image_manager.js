@@ -1,3 +1,4 @@
+// canvasに対して描画機能を管理するクラス
 class CanvasImageManager {
 	static canvas = document.getElementById("canvas");
 	static ctx = CanvasImageManager.canvas.getContext("2d");

@@ -6,20 +6,23 @@ document.querySelectorAll("button[data-mode]").forEach((button) => {
 	});
 });
 
-window.addEventListener("popstate", (event) => {
-	const mode = event.state?.mode || "annotation";
-	switchMode(mode, false);
-});
-
+// サイトにアクセスした際はannotationモード
 window.addEventListener("load", () => {
 	const hash = window.location.hash.replace("#", "") || "annotation";
 	switchMode(hash, false);
+});
+
+// 戻る進むボタンで一つ前・後のモードに切り替える
+window.addEventListener("popstate", (event) => {
+	const mode = event.state?.mode || "annotation";
+	switchMode(mode, false);
 });
 
 var annotationWsHandler = null;
 var remainImageWsHandler = null;
 var annotatedCheckWsHandler = null;
 
+// defaultでhistoryにprevモードを追加(pushHistory:false = historyに追加しない)
 function switchMode(mode, pushHistory = true) {
 	if (pushHistory) {
 		history.pushState({ mode }, '', `#${mode}`);
@@ -59,7 +62,7 @@ function clearCurrentMode() {
 	}
 }
 
-// 各モードのHTML構築
+// 収集した画像データに対してアノテーションするモード
 function switchAnnotationMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
@@ -93,6 +96,7 @@ function switchAnnotationMode() {
 	remainImageWsHandler.connect();
 }
 
+// アノテーションしたデータを確認するモード
 function switchCheckMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
@@ -115,6 +119,7 @@ function switchCheckMode() {
 	annotatedCheckWsHandler.connect();
 }
 
+// AI推論たデータを確認・アノテーションするモード
 function switchAiMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `

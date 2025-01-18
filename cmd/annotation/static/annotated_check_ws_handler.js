@@ -1,3 +1,4 @@
+// checkモードでのサーバとのデータのやり取りを管理するクラス
 class AnnotatedCheckWsHandler {
 	constructor() {
 		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws/check`;
