@@ -46,7 +46,7 @@ class CanvasImageManager {
 		CanvasImageManager.ctx.fillText(str, 50, 100);
 	}
 
-	static drawSemicircle() {
+	static drawSemicircle(color) {
 		const centerX = CanvasImageManager.canvas.width / 2;
 		const centerY = CanvasImageManager.canvas.height;
 		const radius = centerX;
@@ -55,7 +55,7 @@ class CanvasImageManager {
 		CanvasImageManager.ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
 		CanvasImageManager.ctx.lineTo(centerX, centerY);
 		CanvasImageManager.ctx.closePath();
-		CanvasImageManager.ctx.strokeStyle = "green";
+		CanvasImageManager.ctx.strokeStyle = color;
 		CanvasImageManager.ctx.stroke();
 	}
 }

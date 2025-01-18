@@ -69,7 +69,7 @@ class AnnotationWsHandler {
 					.then((img) => {
 						CanvasImageManager.drawImageToCanvas(img);
 						CanvasImageManager.drawMark(x, y, 'red');
-						CanvasImageManager.drawSemicircle();
+						CanvasImageManager.drawSemicircle('green');
 					}).catch((error) => {
 						console.err(error);
 					})

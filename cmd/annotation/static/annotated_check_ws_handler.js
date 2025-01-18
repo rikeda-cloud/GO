@@ -65,11 +65,11 @@ class AnnotatedCheckWsHandler {
 			CanvasImageManager.drawString('全てのデータをチェックしました');
 		} else {
 			this.fileName = sentData.file_name;
-			this.fetchImageAndDraw(this.fileName, sentData.act_point.x, sentData.act_point.y);
+			this.fetchImageAndDraw(this.fileName, sentData.act_point, sentData.annotated_point);
 		}
 	}
 
-	fetchImageAndDraw(fileName, x, y) {
+	fetchImageAndDraw(fileName, actPoint, annotatedPoint) {
 		const loc = window.location;
 		const imageURL = `http://${loc.host + loc.pathname}images/${fileName}`;
 		fetchImage(imageURL)
@@ -78,8 +78,9 @@ class AnnotatedCheckWsHandler {
 				CanvasImageManager.loadImage(imageObjectURL)
 					.then((img) => {
 						CanvasImageManager.drawImageToCanvas(img);
-						CanvasImageManager.drawMark(x, y, 'red');
-						CanvasImageManager.drawSemicircle();
+						CanvasImageManager.drawMark(actPoint.x, actPoint.y, 'red');
+						CanvasImageManager.drawMark(annotatedPoint.x, annotatedPoint.y, 'yellow');
+						CanvasImageManager.drawSemicircle('green');
 					}).catch((error) => {
 						console.err(error);
 					})
