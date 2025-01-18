@@ -7,20 +7,26 @@ class CanvasImageManager {
 		return canvas;
 	}
 
-	static loadImageAndDrawMark(imageURL, x, y) {
-		const img = new Image();
-		img.onload = function() {
-			CanvasImageManager.canvas.width = img.width;
-			CanvasImageManager.canvas.height = img.height;
+	// 画像URLから画像を取得
+	static loadImage(imageURL) {
+		return new Promise((resolve, reject) => {
+			const img = new Image();
+			img.onload = function() {
+				resolve(img);
+			};
+			img.onerror = function() {
+				reject(new Error('Image failed to load'));
+			};
+			img.src = imageURL;
+		});
+	}
 
-			// 画像をCanvasに描画
-			CanvasImageManager.ctx.drawImage(img, 0, 0);
-			// マークの描画
-			CanvasImageManager.drawMark(x, y, 'red');
-			// 半円を描画
-			CanvasImageManager.drawSemicircle();
-		};
-		img.src = imageURL;
+	static drawImageToCanvas(img) {
+		CanvasImageManager.canvas.width = img.width;
+		CanvasImageManager.canvas.height = img.height;
+
+		// 画像をCanvasに描画
+		CanvasImageManager.ctx.drawImage(img, 0, 0);
 	}
 
 	static drawMark(x, y, color) {

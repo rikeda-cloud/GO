@@ -75,7 +75,14 @@ class AnnotatedCheckWsHandler {
 		fetchImage(imageURL)
 			.then(blob => {
 				const imageObjectURL = URL.createObjectURL(blob);
-				CanvasImageManager.loadImageAndDrawMark(imageObjectURL, x, y);
+				CanvasImageManager.loadImage(imageObjectURL)
+					.then((img) => {
+						CanvasImageManager.drawImageToCanvas(img);
+						CanvasImageManager.drawMark(x, y, 'red');
+						CanvasImageManager.drawSemicircle();
+					}).catch((error) => {
+						console.err(error);
+					})
 			})
 			.catch(error => {
 				console.error('There was a problem with the fetch operation:', error);
