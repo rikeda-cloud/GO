@@ -1,7 +1,10 @@
-// ボタンクリックでモード切り替え
-document.getElementById("annotation").addEventListener("click", () => switchMode("annotation"));
-document.getElementById("check").addEventListener("click", () => switchMode("check"));
-document.getElementById("ai").addEventListener("click", () => switchMode("ai"));
+// モード切替ボタンにイベントを登録
+document.querySelectorAll("button[data-mode]").forEach((button) => {
+	button.addEventListener("click", (e) => {
+		const mode = e.target.dataset.mode;
+		switchMode(mode);
+	});
+});
 
 var annotationWsHandler = null;
 var remainImageWsHandler = null;
