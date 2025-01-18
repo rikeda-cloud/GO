@@ -115,7 +115,7 @@ func (wsh *AnnotatedDataCheckHandler) SendPrevData(ws *websocket.Conn, id int64)
 	actAngle := carData.CarSteering
 	actPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, actMagnitude, actAngle)
 	annotatedMagnitude := carData.IdealSpeed
-	annotatedAngle := carData.IdealSpeed
+	annotatedAngle := carData.IdealSteering
 	annotatedPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, annotatedMagnitude, annotatedAngle)
 
 	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.Tags)
@@ -135,7 +135,7 @@ func (wsh *AnnotatedDataCheckHandler) SendNextData(ws *websocket.Conn, id int64)
 	actAngle := carData.CarSteering
 	actPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, actMagnitude, actAngle)
 	annotatedMagnitude := carData.IdealSpeed
-	annotatedAngle := carData.IdealSpeed
+	annotatedAngle := carData.IdealSteering
 	annotatedPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, annotatedMagnitude, annotatedAngle)
 
 	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.Tags)
