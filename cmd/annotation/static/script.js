@@ -151,9 +151,7 @@ function switchAiMode() {
 	<div id="tagContainer">
 		<label for="tagSelect">タグ:</label>
 		<select id="tagSelect">
-			<option value="normal">normal</option>
-			<option value="in">in</option>
-			<option value="out">out</option>
+			<option value="predict">predict</option>
 			<option value="custom">custom</option>
 		</select>
 		<input type="text" id="customTagInput" placeholder="カスタムタグを入力" style="display: none;">
