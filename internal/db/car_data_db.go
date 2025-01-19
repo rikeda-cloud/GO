@@ -27,6 +27,16 @@ func InsertCarData(file_name string, car_speed float64, car_steering float64) er
 	return err
 }
 
+func InsertPredictedCarData(file_name string, car_speed float64, car_steering float64) error {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(InsertPredictedCarDataSQL, file_name, car_speed, car_steering)
+	return err
+}
+
 func UpdateCarData(file_name string, ideal_speed, ideal_steering float64, tags string) error {
 	cfg := config.GetConfig()
 	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
@@ -44,6 +54,35 @@ func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
 		return nil, err
 	}
 	row := db.QueryRow(SelectNoMarkedCarDataSQL, prevId)
+
+	var carData CarData
+	err = row.Scan(
+		&carData.ID,
+		&carData.FileName,
+		&carData.CarSpeed,
+		&carData.CarSteering,
+		&carData.IdealSpeed,
+		&carData.IdealSteering,
+		&carData.MarkFlag,
+		&carData.Tags,
+		&carData.CreatedAt,
+	)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return nil, err
+	}
+
+	return &carData, nil
+}
+
+func SelectPredictedNoMarkedCarData(prevId int64) (*CarData, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow(SelectPredictedNoMarkedCarDataSQL, prevId)
 
 	var carData CarData
 	err = row.Scan(
@@ -152,6 +191,22 @@ func SelectRemainImageCount() (int, error) {
 
 	var count int
 	err = db.QueryRow(SelectRemainImageCountSQL).Scan(&count)
+	if err != nil {
+		return -1, err
+	}
+
+	return count, nil
+}
+
+func SelectPredictedRemainImageCount() (int, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return -1, err
+	}
+
+	var count int
+	err = db.QueryRow(SelectPredictedRemainImageCountSQL).Scan(&count)
 	if err != nil {
 		return -1, err
 	}

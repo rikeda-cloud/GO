@@ -30,6 +30,7 @@ func main() {
 	imageClickHandler := handlers.NewImageClickHandler()
 	remainCountHandler := handlers.NewRemainImageCountHandler()
 	annotatedDataCheckHandler := handlers.NewAnnotatedDataCheckHandler()
+	predictedDataCheckHandler := handlers.NewPredictedDataCheckHandler()
 
 	e := echo.New()
 	e.Static("/", cfg.App.Annotation.StaticDir)
@@ -37,5 +38,6 @@ func main() {
 	e.GET("/ws", imageClickHandler.ImageClickHandler)
 	e.GET("/ws/remain-count", remainCountHandler.RemainImageCountHandler)
 	e.GET("/ws/check", annotatedDataCheckHandler.AnnotatedDataCheckHandler)
+	e.GET("/ws/ai", predictedDataCheckHandler.PredictedDataCheckHandler)
 	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }

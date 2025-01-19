@@ -32,6 +32,12 @@ var (
 		VALUES
 			(?, ?, ?);`
 
+	InsertPredictedCarDataSQL = `
+		INSERT INTO
+			car_data(file_name, car_speed, car_steering, tags)
+		VALUES
+			(?, ?, ?, 'predict');`
+
 	UpdateCarDataSQL = `
 		UPDATE car_data
 			SET ideal_speed = ?,
@@ -46,7 +52,18 @@ var (
 		FROM car_data
 		WHERE
 			mark_flag = 0 AND 
-			id > ?
+			id > ? AND
+			tags != 'predict'
+		ORDER BY id ASC
+		LIMIT 1;`
+
+	SelectPredictedNoMarkedCarDataSQL = `
+		SELECT *
+		FROM car_data
+		WHERE
+			mark_flag = 0 AND
+			id > ? AND
+			tags == 'predict'
 		ORDER BY id ASC
 		LIMIT 1;`
 
@@ -54,8 +71,15 @@ var (
 		SELECT COUNT(*)
 		FROM car_data
 		WHERE
-			mark_flag = 0;
-	`
+			mark_flag = 0 AND
+			tags != 'predict';`
+
+	SelectPredictedRemainImageCountSQL = `
+		SELECT COUNT(*)
+		FROM car_data
+		WHERE
+			mark_flag = 0 AND
+			tags == 'predict';`
 
 	SelectNextCarDataSQL = `
 		SELECT *
