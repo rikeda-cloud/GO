@@ -19,6 +19,15 @@ func initCarData() {
 	carDataDB.InsertCarData("7.png", 0.7, 30)
 	carDataDB.InsertCarData("8.png", 0.8, 40)
 	carDataDB.InsertCarData("9.png", 0.9, 50)
+	carDataDB.InsertPredictedCarData("1.png", 0.1, -30)
+	carDataDB.InsertPredictedCarData("2.png", 0.2, -20)
+	carDataDB.InsertPredictedCarData("3.png", 0.3, -10)
+	carDataDB.InsertPredictedCarData("4.png", 0.4, 0)
+	carDataDB.InsertPredictedCarData("5.png", 0.5, 10)
+	carDataDB.InsertPredictedCarData("6.png", 0.6, 20)
+	carDataDB.InsertPredictedCarData("7.png", 0.7, 30)
+	carDataDB.InsertPredictedCarData("8.png", 0.8, 40)
+	carDataDB.InsertPredictedCarData("9.png", 0.9, 50)
 }
 
 func main() {
