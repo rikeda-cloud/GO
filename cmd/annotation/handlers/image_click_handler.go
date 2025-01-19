@@ -29,13 +29,6 @@ func NewImageClickHandler() *ImageClickHandler {
 	}
 }
 
-type ImageMarkData struct {
-	FileName string      `json:"file_name"`
-	Point    point.Point `json:"point"`
-	Control  string      `json:"control"`
-	Tags     string      `json:"tags"`
-}
-
 func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
@@ -56,20 +49,6 @@ func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
 			return nil
 		}
 	}
-}
-
-func SendCarData(ws *websocket.Conn, fileName string, point point.Point, control string) error {
-	sendData := ImageMarkData{
-		FileName: fileName,
-		Point:    point,
-		Control:  control,
-		Tags:     "",
-	}
-	data, err := json.Marshal(sendData)
-	if err != nil {
-		return err
-	}
-	return ws.WriteMessage(websocket.TextMessage, data)
 }
 
 func (wsh *ImageClickHandler) WriteToWebSocket(ws *websocket.Conn) error {

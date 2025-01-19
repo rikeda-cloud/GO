@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"GO/internal/db"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -15,11 +14,6 @@ type RemainImageCountHandler struct {
 	Count int
 }
 
-type RemainImageCountData struct {
-	CurrentCount  int `json:"current_count"`
-	PreviousCount int `json:"previous_count"`
-}
-
 func NewRemainImageCountHandler() *RemainImageCountHandler {
 	count, err := carDataDB.SelectRemainImageCount()
 	if err != nil {
@@ -29,18 +23,6 @@ func NewRemainImageCountHandler() *RemainImageCountHandler {
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
 		Count:                count,
 	}
-}
-
-func SendRemainImageCountData(ws *websocket.Conn, curentCount, previousCount int) error {
-	sendData := RemainImageCountData{
-		CurrentCount:  curentCount,
-		PreviousCount: previousCount,
-	}
-	data, err := json.Marshal(sendData)
-	if err != nil {
-		return err
-	}
-	return ws.WriteMessage(websocket.TextMessage, data)
 }
 
 func (wsh *RemainImageCountHandler) RemainImageCountHandler(c echo.Context) error {

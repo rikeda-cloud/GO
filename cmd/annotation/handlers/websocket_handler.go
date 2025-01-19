@@ -18,12 +18,3 @@ func NewWebSocketBaseHandler() *WebSocketBaseHandler {
 		Upgrader: websocket.Upgrader{},
 	}
 }
-
-const (
-	NORMAL = "NORMAL"
-	DELETE = "DELETE"
-	FINISH = "FINISH"
-	NEXT   = "NEXT"
-	PREV   = "PREV"
-	MOD    = "MOD"
-)
