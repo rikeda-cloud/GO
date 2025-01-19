@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"GO/internal/config"
 	"GO/internal/db"
 	"GO/internal/point"
 	"database/sql"
@@ -8,15 +9,45 @@ import (
 	"fmt"
 
 	"github.com/gorilla/websocket"
+	"github.com/labstack/echo/v4"
 )
 
 type PredictedDataHandler struct {
-	ImageClickHandler
+	WebSocketBaseHandler
+	PrevDataId       int64
+	BasePoint        point.Point
+	MaxDistancePoint point.Point
 }
 
 func NewPredictedDataHandler() *PredictedDataHandler {
+	cfg := config.GetConfig()
 	return &PredictedDataHandler{
-		ImageClickHandler: *NewImageClickHandler(),
+		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
+		PrevDataId:           0,
+		BasePoint:            point.Point{X: float64(cfg.Camera.Width / 2), Y: float64(cfg.Camera.Height)},
+		MaxDistancePoint:     point.Point{X: 0, Y: cfg.Camera.Height},
+	}
+}
+
+func (wsh *PredictedDataHandler) PredictedDataHandler(c echo.Context) error {
+	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	for {
+		// Write
+		if err := wsh.WriteToWebSocket(conn); err != nil {
+			fmt.Println("[Write]: ", err)
+			return nil
+		}
+
+		// Read
+		if err := wsh.ReadFromWebSocket(conn); err != nil {
+			fmt.Println("[Read]: ", err)
+			return nil
+		}
 	}
 }
 
