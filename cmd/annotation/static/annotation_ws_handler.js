@@ -1,7 +1,9 @@
 // annotationモードでのサーバとのデータのやり取りを管理するクラス
 class AnnotationWsHandler {
-	constructor() {
-		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}ws`;
+	constructor(webSocketPath, imagePath) {
+		this.webSocketUrl = `ws://${window.location.host}${window.location.pathname}${webSocketPath}`;
+		this.imagePath = imagePath;
+
 		this.confirmSwitch = document.getElementById('confirmSwitch');
 		this.deleteButton = document.getElementById('deleteButton');
 		this.canvas = CanvasImageManager.getCanvas();
@@ -61,7 +63,7 @@ class AnnotationWsHandler {
 
 	fetchImageAndDraw(fileName, actPoint) {
 		const loc = window.location;
-		const imageURL = `http://${loc.host + loc.pathname}images/${fileName}`;
+		const imageURL = `http://${loc.host + loc.pathname}${this.imagePath}/${fileName}`;
 		fetchImage(imageURL)
 			.then(blob => {
 				const imageObjectURL = URL.createObjectURL(blob);

@@ -31,6 +31,8 @@ window.addEventListener("popstate", (event) => {
 var annotationWsHandler = null;
 var remainImageWsHandler = null;
 var annotatedCheckWsHandler = null;
+var predictWsHandler = null;
+var predictRemainImageWsHandler = null;
 
 // defaultでhistoryにprevモードを追加(pushHistory:false = historyに追加しない)
 function switchMode(mode, pushHistory = true) {
@@ -100,9 +102,9 @@ function switchAnnotationMode() {
 		<input type="text" id="customTagInput" placeholder="カスタムタグを入力" style="display: none;">
 	</div>`;
 
-	annotationWsHandler = new AnnotationWsHandler();
+	annotationWsHandler = new AnnotationWsHandler("ws", "images");
 	annotationWsHandler.connect();
-	remainImageWsHandler = new RemainImageWsHandler();
+	remainImageWsHandler = new RemainImageWsHandler("ws/remain-count");
 	remainImageWsHandler.connect();
 }
 
@@ -133,8 +135,32 @@ function switchCheckMode() {
 function switchAiMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
-        <div>
-            <h2>AIモード</h2>
-        </div>
-    `;
+	<div id="remainContainer">
+		<p id = "remainImageCount" > 残り: 0</p >
+	</div >
+	<div>
+		<button id="deleteButton">DEL</button>
+	</div>
+	<div id="confirmModeContainer">
+		<label for="confirmSwitch">確認モード:</label>
+		<select id="confirmSwitch">
+			<option value="off">OFF</option>
+			<option value="on">ON</option>
+		</select>
+	</div>
+	<div id="tagContainer">
+		<label for="tagSelect">タグ:</label>
+		<select id="tagSelect">
+			<option value="normal">normal</option>
+			<option value="in">in</option>
+			<option value="out">out</option>
+			<option value="custom">custom</option>
+		</select>
+		<input type="text" id="customTagInput" placeholder="カスタムタグを入力" style="display: none;">
+	</div>`;
+
+	predictWsHandler = new AnnotationWsHandler("ws/ai", "predict-images");
+	predictWsHandler.connect();
+	predictRemainImageWsHandler = new RemainImageWsHandler("ws/predict-remain-count");
+	predictRemainImageWsHandler.connect();
 }
