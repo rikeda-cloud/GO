@@ -6,11 +6,14 @@ import (
 
 	"GO/internal/config"
 	"GO/internal/frame_handler"
+	"GO/internal/ws"
+	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 	"gocv.io/x/gocv"
 )
 
 type ImageStreamingHandler struct {
+	ws.WebSocketBaseHandler
 	camera          *gocv.VideoCapture
 	image_converter func(*gocv.Mat) gocv.Mat
 }
@@ -25,47 +28,46 @@ func NewImageStreamingHandler() *ImageStreamingHandler {
 	camera.Set(gocv.VideoCaptureFrameHeight, cfg.Camera.Height)
 
 	return &ImageStreamingHandler{
+		*ws.NewWebSocketBaseHandler(),
 		camera,
 		frameHandler.ConvertToHough, // デフォルトではハフ変換を適用
 	}
 }
 
 func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
+	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	defer wsh.camera.Close()
 
 	img := gocv.NewMat()
 	defer img.Close()
 
-	c.Response().Header().Set("Content-Type", "multipart/x-mixed-replace; boundary=frame")
-
 	for {
+		// カメラからフレームを取得
 		if ok := wsh.camera.Read(&img); !ok || img.Empty() {
-			log.Println("Error Capture Image")
+			log.Println("Error capturing image")
 			continue
 		}
 
 		start := time.Now()
-		houghImg := wsh.image_converter(&img)
+		convertedImg := wsh.image_converter(&img)
 		log.Println(time.Since(start))
 
-		buf, err := gocv.IMEncode(".png", houghImg)
+		buf, err := gocv.IMEncode(".png", convertedImg)
 		if err != nil {
 			log.Println(err)
+			continue
 		}
 
-		// フレームをストリームとして送信
-		if _, err := c.Response().Write([]byte("--frame\r\n")); err != nil {
-			continue
+		// WebSocketでエンコードされた画像を送信
+		if err := conn.WriteMessage(websocket.BinaryMessage, buf.GetBytes()); err != nil {
+			log.Println("WebSocket Write Error:", err)
+			break
 		}
-		if _, err := c.Response().Write([]byte("Content-Type: image/jpeg\r\n\r\n")); err != nil {
-			continue
-		}
-		if _, err := c.Response().Write(buf.GetBytes()); err != nil {
-			continue
-		}
-		if _, err := c.Response().Write([]byte("\r\n")); err != nil {
-			continue
-		}
-		c.Response().Flush()
+		time.Sleep(30 * time.Millisecond)
 	}
+	return nil
 }
