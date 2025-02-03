@@ -14,8 +14,8 @@ import (
 
 type ImageStreamingHandler struct {
 	ws.WebSocketBaseHandler
-	camera          *gocv.VideoCapture
-	image_converter func(*gocv.Mat) gocv.Mat
+	camera        *gocv.VideoCapture
+	frame_handler func(*gocv.Mat) gocv.Mat
 }
 
 func NewImageStreamingHandler() *ImageStreamingHandler {
@@ -41,42 +41,26 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 	}
 	defer conn.Close()
 	defer wsh.camera.Close()
-	cfg := config.GetConfig()
-
-	img := gocv.NewMat()
-	defer img.Close()
 
 	done := make(chan struct{})
 
-	// クライアントからのメッセージ受信をgoroutineで処理
-	go func() {
-		for {
-			_, msg, err := conn.ReadMessage()
-			if err != nil {
-				close(done)
-				break
-			}
-			switch string(msg) {
-			case "1":
-				wsh.image_converter = frameHandler.ConvertToHough
-			case "2":
-				wsh.image_converter = frameHandler.ConvertToGray
-			case "3":
-				wsh.image_converter = frameHandler.ConvertToCanny
-			default:
-				wsh.image_converter = frameHandler.ConvertToHough
-			}
-		}
-	}()
+	// クライアントからのメッセージを用いて画像処理関数を切り替える
+	go wsh.ReadFromWebSocket(conn, done)
+	go wsh.WriteToWebSocket(conn, done)
+
+	return nil
+}
+
+func (wsh *ImageStreamingHandler) WriteToWebSocket(ws *websocket.Conn, done chan struct{}) {
+	cfg := config.GetConfig()
+	img := gocv.NewMat()
+	defer img.Close()
 
 	for {
-		// ゴルーチンが終了したかを待つ
 		select {
-		case <-done:
-			// ゴルーチンが終了
-			return nil
+		case <-done: // ゴルーチンが終了
+			return
 		default:
-			// ゴルーチンが終了していない場合は何もしない
 		}
 
 		// カメラからフレームを取得
@@ -86,7 +70,7 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 		}
 
 		start := time.Now()
-		convertedImg := wsh.image_converter(&img)
+		convertedImg := wsh.frame_handler(&img)
 		log.Println(time.Since(start))
 
 		buf, err := gocv.IMEncode(".png", convertedImg)
@@ -96,11 +80,34 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 		}
 
 		// WebSocketでエンコードされた画像を送信
-		if err := conn.WriteMessage(websocket.BinaryMessage, buf.GetBytes()); err != nil {
+		if err := ws.WriteMessage(websocket.BinaryMessage, buf.GetBytes()); err != nil {
 			log.Println("WebSocket Write Error:", err)
 			break
 		}
 		time.Sleep(cfg.App.Streaming.StreamingIntervalMsec * time.Millisecond)
 	}
-	return nil
+}
+
+func (wsh *ImageStreamingHandler) ReadFromWebSocket(ws *websocket.Conn, done chan struct{}) {
+	for {
+		_, msg, err := ws.ReadMessage()
+		if err != nil {
+			close(done)
+			return
+		}
+		wsh.ChangeFrameHandler(string(msg))
+	}
+}
+
+func (wsh *ImageStreamingHandler) ChangeFrameHandler(handler_number string) {
+	switch handler_number {
+	case "1":
+		wsh.frame_handler = frameHandler.ConvertToHough
+	case "2":
+		wsh.frame_handler = frameHandler.ConvertToGray
+	case "3":
+		wsh.frame_handler = frameHandler.ConvertToCanny
+	default:
+		wsh.frame_handler = frameHandler.ConvertToHough
+	}
 }
