@@ -46,7 +46,39 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 	img := gocv.NewMat()
 	defer img.Close()
 
+	done := make(chan struct{})
+
+	// クライアントからのメッセージ受信をgoroutineで処理
+	go func() {
+		for {
+			_, msg, err := conn.ReadMessage()
+			if err != nil {
+				close(done)
+				break
+			}
+			switch string(msg) {
+			case "1":
+				wsh.image_converter = frameHandler.ConvertToHough
+			case "2":
+				wsh.image_converter = frameHandler.ConvertToGray
+			case "3":
+				wsh.image_converter = frameHandler.ConvertToCanny
+			default:
+				wsh.image_converter = frameHandler.ConvertToHough
+			}
+		}
+	}()
+
 	for {
+		// ゴルーチンが終了したかを待つ
+		select {
+		case <-done:
+			// ゴルーチンが終了
+			return nil
+		default:
+			// ゴルーチンが終了していない場合は何もしない
+		}
+
 		// カメラからフレームを取得
 		if ok := wsh.camera.Read(&img); !ok || img.Empty() {
 			log.Println("Error capturing image")
