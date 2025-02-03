@@ -11,21 +11,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type ImageClickHandler struct {
+type AnnotationHandler struct {
 	WebSocketBaseHandler
 	CoordinateRange
 	PrevDataId int64
 }
 
-func NewImageClickHandler() *ImageClickHandler {
-	return &ImageClickHandler{
+func NewAnnotationHandler() *AnnotationHandler {
+	return &AnnotationHandler{
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
 		CoordinateRange:      *NewCoordinateRange(),
 		PrevDataId:           0,
 	}
 }
 
-func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
+func (wsh *AnnotationHandler) AnnotationHandler(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err
@@ -47,7 +47,7 @@ func (wsh *ImageClickHandler) ImageClickHandler(c echo.Context) error {
 	}
 }
 
-func (wsh *ImageClickHandler) WriteToWebSocket(ws *websocket.Conn) error {
+func (wsh *AnnotationHandler) WriteToWebSocket(ws *websocket.Conn) error {
 	carData, err := carDataDB.SelectNoMarkedCarData(wsh.PrevDataId)
 
 	// 全てのデータがアノテーション済み
@@ -71,7 +71,7 @@ func (wsh *ImageClickHandler) WriteToWebSocket(ws *websocket.Conn) error {
 	return SendCarData(ws, carData.FileName, actPoint, NORMAL)
 }
 
-func (wsh *ImageClickHandler) ReadFromWebSocket(ws *websocket.Conn) error {
+func (wsh *AnnotationHandler) ReadFromWebSocket(ws *websocket.Conn) error {
 	_, msg, err := ws.ReadMessage()
 	if err != nil {
 		return err

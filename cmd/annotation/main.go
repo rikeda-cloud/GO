@@ -27,7 +27,7 @@ func main() {
 		log.Fatal(err)
 	}
 	initCarData()
-	imageClickHandler := handlers.NewImageClickHandler()
+	annotationHandler := handlers.NewAnnotationHandler()
 	remainCountHandler := handlers.NewRemainImageCountHandler()
 	annotatedDataCheckHandler := handlers.NewAnnotatedDataCheckHandler()
 	predictedDataHandler := handlers.NewPredictedDataHandler()
@@ -37,7 +37,7 @@ func main() {
 	e.Static("/", cfg.App.Annotation.StaticDir)
 	e.Static("/images/", cfg.Image.DirPath)
 	e.Static("/predict-images/", cfg.Image.PredictDirPath)
-	e.GET("/ws", imageClickHandler.ImageClickHandler)
+	e.GET("/ws", annotationHandler.AnnotationHandler)
 	e.GET("/ws/remain-count", remainCountHandler.RemainImageCountHandler)
 	e.GET("/ws/predict-remain-count", predictedRemainImageCountHandler.PredictedRemainImageCountHandler)
 	e.GET("/ws/check", annotatedDataCheckHandler.AnnotatedDataCheckHandler)
