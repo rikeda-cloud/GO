@@ -11,6 +11,6 @@ func main() {
 	imageStreamingHandler := handlers.NewImageStreamingHandler()
 	e := echo.New()
 	e.Static("/", cfg.App.Streaming.StaticDir)
-	e.GET("/feed", imageStreamingHandler.Handler)
+	e.GET("/feed", imageStreamingHandler.HandleImageStreaming)
 	e.Logger.Fatal(e.Start(cfg.App.Streaming.Port))
 }

@@ -25,7 +25,7 @@ func NewPredictedRemainImageCountHandler() *PredictedRemainImageCountHandler {
 	}
 }
 
-func (wsh *PredictedRemainImageCountHandler) PredictedRemainImageCountHandler(c echo.Context) error {
+func (wsh *PredictedRemainImageCountHandler) HandlePredictedRemainImageCount(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err

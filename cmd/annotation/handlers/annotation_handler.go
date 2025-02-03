@@ -25,7 +25,7 @@ func NewAnnotationHandler() *AnnotationHandler {
 	}
 }
 
-func (wsh *AnnotationHandler) AnnotationHandler(c echo.Context) error {
+func (wsh *AnnotationHandler) HandleAnnotation(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err

@@ -31,7 +31,7 @@ type AnnotateData struct {
 	Tags           string      `json:"tags"`
 }
 
-func (wsh *AnnotatedDataCheckHandler) AnnotatedDataCheckHandler(c echo.Context) error {
+func (wsh *AnnotatedDataCheckHandler) HandleAnnotatedDataCheck(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err

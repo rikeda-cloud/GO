@@ -28,7 +28,7 @@ func NewImageStreamingHandler() *ImageStreamingHandler {
 	}
 }
 
-func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
+func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 	defer wsh.camera.Close()
 
 	img := gocv.NewMat()
@@ -37,9 +37,6 @@ func (wsh *ImageStreamingHandler) Handler(c echo.Context) error {
 	c.Response().Header().Set("Content-Type", "multipart/x-mixed-replace; boundary=frame")
 
 	for {
-		// フレームレート調整 (30FPSの場合: 33msのスリープ)
-		// time.Sleep(33 * time.Millisecond)
-
 		if ok := wsh.camera.Read(&img); !ok || img.Empty() {
 			log.Println("Error Capture Image")
 			continue

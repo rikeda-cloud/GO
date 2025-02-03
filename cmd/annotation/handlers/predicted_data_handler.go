@@ -25,7 +25,7 @@ func NewPredictedDataHandler() *PredictedDataHandler {
 	}
 }
 
-func (wsh *PredictedDataHandler) PredictedDataHandler(c echo.Context) error {
+func (wsh *PredictedDataHandler) HandlePredictedData(c echo.Context) error {
 	conn, err := wsh.Upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err
