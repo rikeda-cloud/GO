@@ -38,6 +38,6 @@ func CaptureLoop(wg *sync.WaitGroup, camera *gocv.VideoCapture, speed, steering 
 		carDataDB.InsertCarData(fileName, sp, st)
 		fmt.Printf("Capture: %s(%f, %f)\n", fileName, sp, st)
 
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(cfg.App.CarDataCapture.CaptureIntervalMsec * time.Millisecond)
 	}
 }

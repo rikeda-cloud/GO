@@ -7,6 +7,9 @@
 		"streaming": {
 			"static_dir": "cmd/streaming/static",
 			"port": ":8000"
+		},
+		"car-data-capture": {
+			"capture_interval_msec": 100
 		}
 	},
 	"database": {

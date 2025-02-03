@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"sync"
+	"time"
 )
 
 type Config struct {
@@ -16,6 +17,9 @@ type Config struct {
 			StaticDir string `json:"static_dir"`
 			Port      string `json:"port"`
 		} `json:"streaming"`
+		CarDataCapture struct {
+			CaptureIntervalMsec time.Duration `json:"capture_interval_msec"`
+		} `json:"car-data-capture"`
 	} `json:"app"`
 	Database struct {
 		DBMS     string `json:"dbms"`
