@@ -3,6 +3,7 @@ package handlers
 import (
 	"GO/internal/db"
 	"GO/internal/point"
+	"GO/internal/ws"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -12,14 +13,14 @@ import (
 )
 
 type PredictedDataHandler struct {
-	WebSocketBaseHandler
+	ws.WebSocketBaseHandler
 	CoordinateRange
 	PrevDataId int64
 }
 
 func NewPredictedDataHandler() *PredictedDataHandler {
 	return &PredictedDataHandler{
-		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
+		WebSocketBaseHandler: *ws.NewWebSocketBaseHandler(),
 		CoordinateRange:      *NewCoordinateRange(),
 		PrevDataId:           0,
 	}

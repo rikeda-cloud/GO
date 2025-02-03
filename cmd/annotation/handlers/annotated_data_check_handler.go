@@ -3,6 +3,7 @@ package handlers
 import (
 	"GO/internal/db"
 	"GO/internal/point"
+	"GO/internal/ws"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -12,13 +13,13 @@ import (
 )
 
 type AnnotatedDataCheckHandler struct {
-	WebSocketBaseHandler
+	ws.WebSocketBaseHandler
 	CoordinateRange
 }
 
 func NewAnnotatedDataCheckHandler() *AnnotatedDataCheckHandler {
 	return &AnnotatedDataCheckHandler{
-		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
+		WebSocketBaseHandler: *ws.NewWebSocketBaseHandler(),
 		CoordinateRange:      *NewCoordinateRange(),
 	}
 }

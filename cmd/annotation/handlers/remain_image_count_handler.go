@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"GO/internal/db"
+	"GO/internal/ws"
 	"fmt"
 	"time"
 
@@ -10,7 +11,7 @@ import (
 )
 
 type RemainImageCountHandler struct {
-	WebSocketBaseHandler
+	ws.WebSocketBaseHandler
 	Count int
 }
 
@@ -20,7 +21,7 @@ func NewRemainImageCountHandler() *RemainImageCountHandler {
 		panic("Error: Get Remain Image Count")
 	}
 	return &RemainImageCountHandler{
-		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
+		WebSocketBaseHandler: *ws.NewWebSocketBaseHandler(),
 		Count:                count,
 	}
 }
