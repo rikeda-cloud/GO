@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"GO/internal/config"
 	"GO/internal/db"
 	"GO/internal/point"
 	"database/sql"
@@ -14,16 +13,13 @@ import (
 
 type AnnotatedDataCheckHandler struct {
 	WebSocketBaseHandler
-	BasePoint        point.Point
-	MaxDistancePoint point.Point
+	CoordinateRange
 }
 
 func NewAnnotatedDataCheckHandler() *AnnotatedDataCheckHandler {
-	cfg := config.GetConfig()
 	return &AnnotatedDataCheckHandler{
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
-		BasePoint:            point.Point{X: float64(cfg.Camera.Width / 2), Y: float64(cfg.Camera.Height)},
-		MaxDistancePoint:     point.Point{X: 0, Y: cfg.Camera.Height},
+		CoordinateRange:      *NewCoordinateRange(),
 	}
 }
 

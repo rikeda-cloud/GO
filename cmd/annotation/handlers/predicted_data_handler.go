@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"GO/internal/config"
 	"GO/internal/db"
 	"GO/internal/point"
 	"database/sql"
@@ -14,18 +13,15 @@ import (
 
 type PredictedDataHandler struct {
 	WebSocketBaseHandler
-	PrevDataId       int64
-	BasePoint        point.Point
-	MaxDistancePoint point.Point
+	CoordinateRange
+	PrevDataId int64
 }
 
 func NewPredictedDataHandler() *PredictedDataHandler {
-	cfg := config.GetConfig()
 	return &PredictedDataHandler{
 		WebSocketBaseHandler: *NewWebSocketBaseHandler(),
+		CoordinateRange:      *NewCoordinateRange(),
 		PrevDataId:           0,
-		BasePoint:            point.Point{X: float64(cfg.Camera.Width / 2), Y: float64(cfg.Camera.Height)},
-		MaxDistancePoint:     point.Point{X: 0, Y: cfg.Camera.Height},
 	}
 }
 
