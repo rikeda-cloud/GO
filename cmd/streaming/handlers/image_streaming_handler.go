@@ -11,7 +11,8 @@ import (
 )
 
 type ImageStreamingHandler struct {
-	camera *gocv.VideoCapture
+	camera          *gocv.VideoCapture
+	image_converter func(*gocv.Mat) gocv.Mat
 }
 
 func NewImageStreamingHandler() *ImageStreamingHandler {
@@ -25,6 +26,7 @@ func NewImageStreamingHandler() *ImageStreamingHandler {
 
 	return &ImageStreamingHandler{
 		camera,
+		frameHandler.ConvertToHough, // デフォルトではハフ変換を適用
 	}
 }
 
@@ -43,7 +45,7 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 		}
 
 		start := time.Now()
-		houghImg := frameHandler.ConvertToHough(&img)
+		houghImg := wsh.image_converter(&img)
 		log.Println(time.Since(start))
 
 		buf, err := gocv.IMEncode(".png", houghImg)
