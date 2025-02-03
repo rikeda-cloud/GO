@@ -41,6 +41,7 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 	}
 	defer conn.Close()
 	defer wsh.camera.Close()
+	cfg := config.GetConfig()
 
 	img := gocv.NewMat()
 	defer img.Close()
@@ -67,7 +68,7 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 			log.Println("WebSocket Write Error:", err)
 			break
 		}
-		time.Sleep(30 * time.Millisecond)
+		time.Sleep(cfg.App.Streaming.StreamingIntervalMsec * time.Millisecond)
 	}
 	return nil
 }

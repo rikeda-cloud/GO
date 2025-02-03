@@ -14,8 +14,9 @@ type Config struct {
 			Port      string `json:"port"`
 		} `json:"annotation"`
 		Streaming struct {
-			StaticDir string `json:"static_dir"`
-			Port      string `json:"port"`
+			StaticDir             string        `json:"static_dir"`
+			Port                  string        `json:"port"`
+			StreamingIntervalMsec time.Duration `json:"streaming_interval_msec"`
 		} `json:"streaming"`
 		CarDataCapture struct {
 			CaptureIntervalMsec time.Duration `json:"capture_interval_msec"`
