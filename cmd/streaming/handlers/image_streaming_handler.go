@@ -40,7 +40,7 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 		return err
 	}
 	defer conn.Close()
-	defer wsh.camera.Close()
+	// defer wsh.camera.Close()
 
 	cfg := config.GetConfig()
 	img := gocv.NewMat()
