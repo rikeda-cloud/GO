@@ -6,16 +6,10 @@ socket.onmessage = function(event) {
 	imgElement.src = URL.createObjectURL(imageBlob);
 };
 
-btn0 = document.getElementById("btn-converter-1")
-btn1 = document.getElementById("btn-converter-2")
-btn2 = document.getElementById("btn-converter-3")
-
-btn0.addEventListener("click", function() {
-	socket.send("1");
-})
-btn1.addEventListener("click", function() {
-	socket.send("2");
-})
-btn2.addEventListener("click", function() {
-	socket.send("3");
-})
+const frameHandlerButtons = document.querySelectorAll('button[data-value]');
+frameHandlerButtons.forEach(button => {
+	button.addEventListener("click", () => {
+		const value = button.getAttribute('data-value');
+		socket.send(value);
+	})
+});

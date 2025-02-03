@@ -42,24 +42,19 @@ func (wsh *ImageStreamingHandler) HandleImageStreaming(c echo.Context) error {
 	defer conn.Close()
 	defer wsh.camera.Close()
 
-	done := make(chan struct{})
-
-	// クライアントからのメッセージを用いて画像処理関数を切り替える
-	go wsh.ReadFromWebSocket(conn, done)
-	go wsh.WriteToWebSocket(conn, done)
-
-	return nil
-}
-
-func (wsh *ImageStreamingHandler) WriteToWebSocket(ws *websocket.Conn, done chan struct{}) {
 	cfg := config.GetConfig()
 	img := gocv.NewMat()
 	defer img.Close()
 
+	done := make(chan struct{})
+
+	// クライアントからのメッセージを用いて画像処理関数を切り替える
+	go wsh.ReadFromWebSocket(conn, done)
+
 	for {
 		select {
 		case <-done: // ゴルーチンが終了
-			return
+			return nil
 		default:
 		}
 
@@ -80,12 +75,14 @@ func (wsh *ImageStreamingHandler) WriteToWebSocket(ws *websocket.Conn, done chan
 		}
 
 		// WebSocketでエンコードされた画像を送信
-		if err := ws.WriteMessage(websocket.BinaryMessage, buf.GetBytes()); err != nil {
+		if err := conn.WriteMessage(websocket.BinaryMessage, buf.GetBytes()); err != nil {
 			log.Println("WebSocket Write Error:", err)
 			break
 		}
 		time.Sleep(cfg.App.Streaming.StreamingIntervalMsec * time.Millisecond)
 	}
+
+	return nil
 }
 
 func (wsh *ImageStreamingHandler) ReadFromWebSocket(ws *websocket.Conn, done chan struct{}) {
