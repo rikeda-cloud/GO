@@ -6,10 +6,22 @@ socket.onmessage = function(event) {
 	imgElement.src = URL.createObjectURL(imageBlob);
 };
 
-const frameHandlerButtons = document.querySelectorAll('button[data-value]');
-frameHandlerButtons.forEach(button => {
+const buttonConfigs = [
+	{ label: "Hough", value: "1" },
+	{ label: "Gray", value: "2" },
+	{ label: "Canny", value: "3" },
+]
+
+const frameHandlerDiv = document.getElementById("frame-handler-buttons");
+
+buttonConfigs.forEach(config => {
+	const button = document.createElement('button');
+	button.setAttribute('data-value', config.value);
+	button.innerText = config.label;
+
 	button.addEventListener("click", () => {
 		const value = button.getAttribute('data-value');
 		socket.send(value);
-	})
+	});
+	frameHandlerDiv.appendChild(button);
 });
