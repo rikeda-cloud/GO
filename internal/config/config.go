@@ -47,6 +47,15 @@ type Config struct {
 			MinLineLength float32 `json:"min_line_length"`
 			MaxLineGap    float32 `json:"max_line_gap"`
 		} `json:"hough"`
+		Filter struct {
+			D          int     `json:"d"`
+			SigmaColor float64 `json:"sigma_color"`
+			SigmaSpace float64 `json:"sigma_space"`
+		}
+		Binary struct {
+			Threshold float32 `json:"threshold"`
+			MaxValue  float32 `json:"max_value"`
+		}
 	} `json:"frame"`
 }
 

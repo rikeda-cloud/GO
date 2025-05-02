@@ -78,24 +78,24 @@ func ConvertToReverse(frame *gocv.Mat) gocv.Mat {
 
 // INFO ぼかし(ノイズ除去。エッジ検出と併用可能)
 func ConvertToBilateralFilter(frame *gocv.Mat) gocv.Mat {
+	cfg := config.GetConfig()
 	if IsGrayscale(frame) {
 		return frame.Clone()
 	}
 
 	filteredFrame := gocv.NewMat()
-	gocv.BilateralFilter(*frame, &filteredFrame, 9, 75.0, 75.0)
+	gocv.BilateralFilter(*frame, &filteredFrame, cfg.Frame.Filter.D, cfg.Frame.Filter.SigmaColor, cfg.Frame.Filter.SigmaSpace)
 	return filteredFrame
 }
 
 // INFO 画像の白黒化
 func ConvertToBinary(frame *gocv.Mat) gocv.Mat {
-	const threshold = 200.0
-	const maxValue = 255.0
+	cfg := config.GetConfig()
 
 	binary := gocv.NewMat()
 	grayFrame := ConvertToGray(frame)
 
-	gocv.Threshold(grayFrame, &binary, threshold, maxValue, gocv.ThresholdBinary)
+	gocv.Threshold(grayFrame, &binary, cfg.Frame.Binary.Threshold, cfg.Frame.Binary.MaxValue, gocv.ThresholdBinary)
 
 	grayFrame.Close()
 

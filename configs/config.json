@@ -37,6 +37,15 @@
 			"threshold": 100,
 			"min_line_length": 100.0,
 			"max_line_gap": 5.0
+		},
+		"filter": {
+			"d": 9,
+			"sigma_color": 75.0,
+			"sigma_space": 75.0
+		},
+		"binary": {
+			"threshold": 200.0,
+			"max_value": 255.0
 		}
 	}
 }
