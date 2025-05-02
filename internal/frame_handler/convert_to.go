@@ -86,3 +86,18 @@ func ConvertToBilateralFilter(frame *gocv.Mat) gocv.Mat {
 	gocv.BilateralFilter(*frame, &filteredFrame, 9, 75.0, 75.0)
 	return filteredFrame
 }
+
+// INFO 画像の白黒化
+func ConvertToBinary(frame *gocv.Mat) gocv.Mat {
+	const threshold = 200.0
+	const maxValue = 255.0
+
+	binary := gocv.NewMat()
+	grayFrame := ConvertToGray(frame)
+
+	gocv.Threshold(grayFrame, &binary, threshold, maxValue, gocv.ThresholdBinary)
+
+	grayFrame.Close()
+
+	return binary
+}

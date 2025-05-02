@@ -108,6 +108,8 @@ func (wsh *ImageStreamingHandler) ChangeFrameHandler(handler_number string) {
 		wsh.frame_handler = frameHandler.ConvertToReverse
 	case "5":
 		wsh.frame_handler = frameHandler.ConvertToBilateralFilter
+	case "6":
+		wsh.frame_handler = frameHandler.ConvertToBinary
 	default:
 		wsh.frame_handler = frameHandler.ConvertToHough
 	}
