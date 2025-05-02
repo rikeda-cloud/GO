@@ -9,12 +9,14 @@ import (
 	"gocv.io/x/gocv"
 )
 
+// INFO Grayスケール画像に変換
 func ConvertToGray(frame *gocv.Mat) gocv.Mat {
 	grayFrame := gocv.NewMat()
 	gocv.CvtColor(*frame, &grayFrame, gocv.ColorBGRToGray)
 	return grayFrame
 }
 
+// INFO Cannyエッジ検出後の画像に変換
 func ConvertToCanny(frame *gocv.Mat) gocv.Mat {
 	cfg := config.GetConfig()
 	grayFrame := ConvertToGray(frame)
@@ -29,6 +31,7 @@ func ConvertToCanny(frame *gocv.Mat) gocv.Mat {
 	return cannyFrame
 }
 
+// INFO Hough変換で直線データを取得
 func DetectHoughData(frame *gocv.Mat) gocv.Mat {
 	cfg := config.GetConfig()
 	cannyFrame := ConvertToCanny(frame)
@@ -48,6 +51,7 @@ func DetectHoughData(frame *gocv.Mat) gocv.Mat {
 	return lines
 }
 
+// INFO Hough変換を用いて直線を強調した画像に変換
 func ConvertToHough(frame *gocv.Mat) gocv.Mat {
 	houghFrame := gocv.NewMat()
 	frame.CopyTo(&houghFrame)
@@ -63,4 +67,11 @@ func ConvertToHough(frame *gocv.Mat) gocv.Mat {
 		gocv.Line(&houghFrame, pt1, pt2, red, 2)
 	}
 	return houghFrame
+}
+
+// INFO 左右反転画像に変換
+func ConvertToReverse(frame *gocv.Mat) gocv.Mat {
+	reversedFrame := gocv.NewMat()
+	gocv.Flip(*frame, &reversedFrame, 1)
+	return reversedFrame
 }

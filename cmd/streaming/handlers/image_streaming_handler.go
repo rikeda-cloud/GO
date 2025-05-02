@@ -104,6 +104,8 @@ func (wsh *ImageStreamingHandler) ChangeFrameHandler(handler_number string) {
 		wsh.frame_handler = frameHandler.ConvertToGray
 	case "3":
 		wsh.frame_handler = frameHandler.ConvertToCanny
+	case "4":
+		wsh.frame_handler = frameHandler.ConvertToReverse
 	default:
 		wsh.frame_handler = frameHandler.ConvertToHough
 	}

@@ -10,6 +10,7 @@ const buttonConfigs = [
 	{ label: "Hough", value: "1" },
 	{ label: "Gray", value: "2" },
 	{ label: "Canny", value: "3" },
+	{ label: "Reverse", value: "4" },
 ]
 
 const frameHandlerDiv = document.getElementById("frame-handler-buttons");
