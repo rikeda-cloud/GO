@@ -102,13 +102,12 @@ func ConvertToBinary(frame *gocv.Mat) gocv.Mat {
 }
 
 func ConvertToHaarLike(frame *gocv.Mat) gocv.Mat {
-	DIVISIONS := 40
-	RECT_HEIGHT := 15
-	haarValues := CalcHaarValues(frame, DIVISIONS, RECT_HEIGHT)
+	cfg := config.GetConfig()
+	haarValues := CalcHaarValues(frame, cfg.Frame.HaarLike.Divisions, cfg.Frame.HaarLike.RectHeight)
 
 	width := frame.Cols()
 	height := frame.Rows()
-	widthStep := width / DIVISIONS
+	widthStep := width / cfg.Frame.HaarLike.Divisions
 
 	resultFrame := frame.Clone()
 	black := color.RGBA{0, 0, 0, 0}

@@ -51,11 +51,15 @@ type Config struct {
 			D          int     `json:"d"`
 			SigmaColor float64 `json:"sigma_color"`
 			SigmaSpace float64 `json:"sigma_space"`
-		}
+		} `json:"filter"`
 		Binary struct {
 			Threshold float32 `json:"threshold"`
 			MaxValue  float32 `json:"max_value"`
-		}
+		} `json:"binary"`
+		HaarLike struct {
+			Divisions  int `json:"divisions"`
+			RectHeight int `json:"rect_height"`
+		} `json:"haar_like"`
 	} `json:"frame"`
 }
 

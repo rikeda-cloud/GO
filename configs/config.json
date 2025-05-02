@@ -46,6 +46,10 @@
 		"binary": {
 			"threshold": 200.0,
 			"max_value": 255.0
+		},
+		"haar_like": {
+			"divisions": 40,
+			"rect_height": 15
 		}
 	}
 }
