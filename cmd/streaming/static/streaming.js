@@ -13,6 +13,7 @@ const buttonConfigs = [
 	{ label: "Reverse", value: "4" },
 	{ label: "Filter", value: "5" },
 	{ label: "Binary", value: "6" },
+	{ label: "HaarLike", value: "7" },
 ]
 
 const frameHandlerDiv = document.getElementById("frame-handler-buttons");
