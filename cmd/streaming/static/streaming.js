@@ -11,6 +11,7 @@ const buttonConfigs = [
 	{ label: "Gray", value: "2" },
 	{ label: "Canny", value: "3" },
 	{ label: "Reverse", value: "4" },
+	{ label: "Filter", value: "5" },
 ]
 
 const frameHandlerDiv = document.getElementById("frame-handler-buttons");

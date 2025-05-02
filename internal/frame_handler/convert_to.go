@@ -75,3 +75,14 @@ func ConvertToReverse(frame *gocv.Mat) gocv.Mat {
 	gocv.Flip(*frame, &reversedFrame, 1)
 	return reversedFrame
 }
+
+// INFO ぼかし(ノイズ除去。エッジ検出と併用可能)
+func ConvertToBilateralFilter(frame *gocv.Mat) gocv.Mat {
+	if IsGrayscale(frame) {
+		return frame.Clone()
+	}
+
+	filteredFrame := gocv.NewMat()
+	gocv.BilateralFilter(*frame, &filteredFrame, 9, 75.0, 75.0)
+	return filteredFrame
+}
