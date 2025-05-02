@@ -66,19 +66,24 @@ func CalcHaarValues(frame *gocv.Mat, divisions, rectHeight int) []float64 {
 }
 
 // 1次元配列に対する畳み込み関数
-func convolve(array []float64, kernel []float64) []float64 {
+func convolve(array, kernel []float64) []float64 {
 	kernelSize := len(kernel)
 	arrayLen := len(array)
 	resultLen := arrayLen - kernelSize + 1
 	result := make([]float64, resultLen)
 
+	// あらかじめカーネルを反転
+	reversedKernel := make([]float64, kernelSize)
+	for i := 0; i < kernelSize; i++ {
+		reversedKernel[i] = kernel[kernelSize-1-i]
+	}
+
 	for i := 0; i < resultLen; i++ {
 		sum := 0.0
 		for j := 0; j < kernelSize; j++ {
-			sum += array[i+j] * kernel[kernelSize-1-j]
+			sum += array[i+j] * reversedKernel[j]
 		}
 		result[i] = sum
 	}
-
 	return result
 }
