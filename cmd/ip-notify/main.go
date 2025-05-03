@@ -2,18 +2,24 @@ package main
 
 import (
 	"GO/cmd/ip-notify/utils"
-	"GO/internal/config"
+	"fmt"
 
 	"bytes"
+	_ "embed"
 	"encoding/json"
 	"net/http"
 	"strings"
 )
 
+// INFO webhook.urlにIPアドレス通知先のURLを記述
+
+//go:embed webhook.url
+var discordWebhookURL string
+
 func main() {
-	cfg := config.GetConfig()
 	ips, err := utils.GetIPAddress()
 	if err != nil {
+		fmt.Println("IPアドレスの取得に失敗しました")
 		return
 	}
 
@@ -22,5 +28,5 @@ func main() {
 	}
 	payload, _ := json.Marshal(message)
 
-	http.Post(cfg.App.IpNotify.DiscordWebhookUrl, "application/json", bytes.NewBuffer(payload))
+	http.Post(strings.TrimSpace(discordWebhookURL), "application/json", bytes.NewBuffer(payload))
 }
