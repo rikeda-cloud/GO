@@ -2,6 +2,7 @@ package main
 
 import (
 	"GO/cmd/ip-notify/utils"
+	"GO/internal/config"
 
 	"bytes"
 	"encoding/json"
@@ -9,9 +10,8 @@ import (
 	"strings"
 )
 
-const webhookURL = "https://discord.com/api/webhooks/11111111111"
-
 func main() {
+	cfg := config.GetConfig()
 	ips, err := utils.GetIPAddress()
 	if err != nil {
 		return
@@ -22,5 +22,5 @@ func main() {
 	}
 	payload, _ := json.Marshal(message)
 
-	http.Post(webhookURL, "application/json", bytes.NewBuffer(payload))
+	http.Post(cfg.App.IpNotify.DiscordWebhookUrl, "application/json", bytes.NewBuffer(payload))
 }

@@ -21,6 +21,9 @@ type Config struct {
 		CarDataCapture struct {
 			CaptureIntervalMsec time.Duration `json:"capture_interval_msec"`
 		} `json:"car-data-capture"`
+		IpNotify struct {
+			DiscordWebhookUrl string `json:"discord_webhook_url"`
+		} `json:"ip-notify"`
 	} `json:"app"`
 	Database struct {
 		DBMS     string `json:"dbms"`
