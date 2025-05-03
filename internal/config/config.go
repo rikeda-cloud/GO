@@ -61,6 +61,13 @@ type Config struct {
 			RectHeight int `json:"rect_height"`
 		} `json:"haar_like"`
 	} `json:"frame"`
+	OAuth struct {
+		ClientID     string   `json:"client_id"`
+		ClientSecret string   `json:"client_secret"`
+		SecretKey    string   `json:"secret_key"`
+		CallbackURL  string   `json:"callback_url"`
+		AllowedUsers []string `json:"allowed_users"`
+	}
 }
 
 var (

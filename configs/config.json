@@ -51,5 +51,14 @@
 			"divisions": 40,
 			"rect_height": 15
 		}
+	},
+	"oauth": {
+		"client_id": "",
+		"client_secret": "",
+		"secret_key": "",
+		"callback_url": "http://localhost:5000/callback",
+		"allowed_users": [
+			"rikeda-cloud"
+		]
 	}
 }
