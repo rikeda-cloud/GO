@@ -11,9 +11,6 @@
 		},
 		"car-data-capture": {
 			"capture_interval_msec": 100
-		},
-		"ip-notify": {
-			"discord_webhook_url": "https://discord.com/api/webhooks/11111111111"
 		}
 	},
 	"database": {
