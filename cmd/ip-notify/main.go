@@ -18,6 +18,9 @@ import (
 var discordWebhookURL string
 
 func main() {
+	// INFO DNSサービス起動とIP取得を遅延させる
+	time.Sleep(10 * time.Second)
+
 	ips, err := utils.GetIPAddress()
 	if err != nil {
 		fmt.Println("IPアドレスの取得に失敗しました")
@@ -29,7 +32,5 @@ func main() {
 	}
 	payload, _ := json.Marshal(message)
 
-	// INFO DNSサービス起動までのタイミングをずらす
-	time.Sleep(10 * time.Second)
 	http.Post(strings.TrimSpace(discordWebhookURL), "application/json", bytes.NewBuffer(payload))
 }
