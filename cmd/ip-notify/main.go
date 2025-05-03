@@ -3,6 +3,7 @@ package main
 import (
 	"GO/cmd/ip-notify/utils"
 	"fmt"
+	"time"
 
 	"bytes"
 	_ "embed"
@@ -28,5 +29,7 @@ func main() {
 	}
 	payload, _ := json.Marshal(message)
 
+	// INFO DNSサービス起動までのタイミングをずらす
+	time.Sleep(10 * time.Second)
 	http.Post(strings.TrimSpace(discordWebhookURL), "application/json", bytes.NewBuffer(payload))
 }
