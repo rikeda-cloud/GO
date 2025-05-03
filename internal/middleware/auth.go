@@ -1,0 +1,34 @@
+package middleware
+
+import (
+	"GO/internal/config"
+	"net/http"
+
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo/v4"
+)
+
+cfg := config.GetConfig()
+
+var store = sessions.NewCookieStore([]byte(cfg.OAuth.SecretKey))
+
+func RequireLogin(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		req := c.Request()
+		res := c.Response()
+		session, _ := store.Get(req, "session-name")
+		user := session.Values["user"]
+		if user == nil {
+			return c.Redirect(http.StatusFound, "/login")
+		}
+		return next(c)
+	}
+}
+
+func SaveUserSession(c echo.Context, username string) {
+	req := c.Request()
+	res := c.Response()
+	session, _ := store.Get(req, "session-name")
+	session.Values["user"] = username
+	session.Save(req, res)
+}
