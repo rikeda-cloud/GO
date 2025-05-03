@@ -9,7 +9,8 @@
 ├── cmd
 │   ├── annotation/           # アノテーションツール（Webベース）
 │   ├── car-data-capture/     # データ収集アプリケーション
-│   └── streaming/            # 画像ストリーミング・特徴量抽出画像の可視化機能
+│   ├── streaming/            # 画像ストリーミング・特徴量抽出画像の可視化機能
+│   └── ip-notify/            # IPアドレス通知
 ├── internal/                 # 共通ライブラリ（DB, WebSocket, config, etc）
 ├── images/                   # 保存された画像データ(仮置きした画像を含む)
 ├── configs/
@@ -74,4 +75,23 @@ go build ./cmd/streaming/main.go
 go build ./cmd/annotation/main.go
 ./main
 # → ブラウザで http://localhost:8000 にアクセス
+```
+
+### 4️⃣ IPアドレス通知サービス
+コンピュータ起動時にIPアドレスをDiscordにWebhookを用いて通知します。
+
+1. `cmd/ip-notify/webhook.url` ファイルにDiscordのWebHookURLを記述する。
+2. `go build -o ip-notify cmd/ip-notify/main.go` でバイナリを作成。
+3. システムに作成したバイナリを配置。
+```
+chmod +x ip-notify
+sudo mv ip-notify /usr/local/bin/ip-notify
+
+# SELinux が有効な場合、制限を緩和する（必要に応じて）
+sudo chcon -t bin_t /usr/local/bin/ip-notify
+```
+4. `ip_address_notify/ip-notify.service` をサービスとして登録
+```
+sudo cp ip_address_notify/ip-notify.service /etc/systemd/system/ip-notify.service
+sudo systemctl enable ip-notify.service
 ```
