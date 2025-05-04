@@ -1,10 +1,13 @@
 package main
 
 import (
+	"GO/cmd/data-exporter/exporter"
 	"GO/internal/config"
 	"GO/internal/db"
 	"GO/internal/frame_handler"
 	"fmt"
+	"time"
+
 	"gocv.io/x/gocv"
 )
 
@@ -30,7 +33,13 @@ func main() {
 		values := frameHandler.CalcHaarValues(&img, cfg.Frame.HaarLike.Divisions, cfg.Frame.HaarLike.RectHeight)
 		img.Close()
 
-		fmt.Println(data.IdealSpeed, data.IdealSteering, data.CreatedAt, values)
+		if err := exporter.ExportToCloud(data, values); err != nil {
+			fmt.Printf("データのExportに失敗: %s\n", err)
+			break
+		}
+
+		// INFO 一定時間遅延
+		time.Sleep(cfg.App.DataExporter.ExportDelayMsec * time.Millisecond)
 
 		id = data.ID
 		total++
