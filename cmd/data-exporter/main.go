@@ -27,7 +27,7 @@ func main() {
 			break
 		}
 
-		values := frameHandler.CalcHaarValues(&img, 20, 15)
+		values := frameHandler.CalcHaarValues(&img, cfg.Frame.HaarLike.Divisions, cfg.Frame.HaarLike.RectHeight)
 		img.Close()
 
 		fmt.Println(data.IdealSpeed, data.IdealSteering, data.CreatedAt, values)
