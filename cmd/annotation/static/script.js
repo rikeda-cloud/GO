@@ -112,6 +112,9 @@ function switchAnnotationMode() {
 function switchCheckMode() {
 	const appElement = document.getElementById("app");
 	appElement.innerHTML = `
+	<div id="userInfoContainer">
+		<span id="userName"></span>
+    </div>
 	<div id="nextPrevButtons">
 		<button id="prevButton"><< Prev</button>
 		<button id="nextButton">Next >></button>

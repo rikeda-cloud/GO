@@ -63,9 +63,11 @@ class AnnotatedCheckWsHandler {
 		this.tags = sentData.tags;
 		if (this.control === "FINISH") {
 			CanvasImageManager.drawString('全てのデータをチェックしました');
+			document.getElementById("userName").textContent = "";
 		} else {
 			this.fileName = sentData.file_name;
 			this.fetchImageAndDraw(this.fileName, sentData.act_point, sentData.annotated_point);
+			document.getElementById("userName").textContent = "Annotated by: " + sentData.user_name;
 		}
 	}
 
