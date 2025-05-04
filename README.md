@@ -16,6 +16,7 @@
 ├── configs/
 │   └── config.json           # アプリケーション設定ファイル
 ├── go.mod / go.sum           # Go Modules 設定
+├── ip_address_notify         # IPアドレス通知用設定
 └── README.md
 ```
 
@@ -27,8 +28,6 @@
 
 Fedora でのインストール例
 ```bash
-コピーする
-編集する
 # Go のインストール（例: 1.23.4）
 wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
 sudo tar -xzf go1.23.4.linux-amd64.tar.gz
