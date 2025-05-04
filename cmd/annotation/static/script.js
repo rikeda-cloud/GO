@@ -72,6 +72,14 @@ function clearCurrentMode() {
 		annotatedCheckWsHandler.close();
 		annotatedCheckWsHandler = null;
 	}
+	if (predictWsHandler) {
+		predictWsHandler.close();
+		predictWsHandler = null;
+	}
+	if (predictRemainImageWsHandler) {
+		predictRemainImageWsHandler.close();
+		predictRemainImageWsHandler = null;
+	}
 }
 
 // 収集した画像データに対してアノテーションするモード
