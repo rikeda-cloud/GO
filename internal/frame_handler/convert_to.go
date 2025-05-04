@@ -101,6 +101,7 @@ func ConvertToBinary(frame *gocv.Mat) gocv.Mat {
 	return binary
 }
 
+// INFO HaarLike特徴量抽出を行い、画像にプロット
 func ConvertToHaarLike(frame *gocv.Mat) gocv.Mat {
 	cfg := config.GetConfig()
 	haarValues := CalcHaarValues(frame, cfg.Frame.HaarLike.Divisions, cfg.Frame.HaarLike.RectHeight)

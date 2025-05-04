@@ -75,10 +75,12 @@ var (
 	once     sync.Once
 )
 
+// INFO プログラム起動時に構造体への変換を実行
 func init() {
 	loadConfig("configs/config.json")
 }
 
+// INFO config.jsonから構造体へ変換(シングルトンパターン)
 func loadConfig(filePath string) {
 	once.Do(func() {
 		data, err := os.ReadFile(filePath)

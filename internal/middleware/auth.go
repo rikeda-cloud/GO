@@ -10,6 +10,7 @@ import (
 
 var store *sessions.CookieStore
 
+// INFO プログラム起動時に実行
 func init() {
 	cfg := config.GetConfig()
 	store = sessions.NewCookieStore([]byte(cfg.OAuth.SecretKey))

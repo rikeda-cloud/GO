@@ -7,6 +7,7 @@ import (
 	"gocv.io/x/gocv"
 )
 
+// HaarLike特徴量抽出で画像の白黒差が激しいポイントを算出する
 func CalcHaarValues(frame *gocv.Mat, divisions, rectHeight int) []float64 {
 	grayFrame := ConvertToGray(frame)
 
