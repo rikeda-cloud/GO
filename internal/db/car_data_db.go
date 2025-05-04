@@ -186,6 +186,66 @@ func SelectIdFromFileName(fileName string) (int64, error) {
 	return id, nil
 }
 
+func SelectOldestCarData() (*CarData, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow(SelectOldestCarDataSQL)
+
+	var carData CarData
+	err = row.Scan(
+		&carData.ID,
+		&carData.FileName,
+		&carData.CarSpeed,
+		&carData.CarSteering,
+		&carData.IdealSpeed,
+		&carData.IdealSteering,
+		&carData.MarkFlag,
+		&carData.AnnotationUserName,
+		&carData.Tags,
+		&carData.CreatedAt,
+	)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return nil, err
+	}
+
+	return &carData, nil
+}
+
+func SelectLatestCarData() (*CarData, error) {
+	cfg := config.GetConfig()
+	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow(SelectLatestCarDataSQL)
+
+	var carData CarData
+	err = row.Scan(
+		&carData.ID,
+		&carData.FileName,
+		&carData.CarSpeed,
+		&carData.CarSteering,
+		&carData.IdealSpeed,
+		&carData.IdealSteering,
+		&carData.MarkFlag,
+		&carData.AnnotationUserName,
+		&carData.Tags,
+		&carData.CreatedAt,
+	)
+
+	// (row.size() == 0) IS Error.
+	if err != nil {
+		return nil, err
+	}
+
+	return &carData, nil
+}
+
 func SelectRemainImageCount() (int, error) {
 	cfg := config.GetConfig()
 	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)

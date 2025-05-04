@@ -81,7 +81,7 @@ func (wsh *AnnotatedDataCheckHandler) ReadAndWriteWebSocket(ws *websocket.Conn) 
 	if err != nil {
 		return err
 	}
-	recivedDataId, err := carDataDB.SelectIdFromFileName(data.FileName)
+	recivedDataId, _ := carDataDB.SelectIdFromFileName(data.FileName)
 
 	if data.Control == PREV {
 		return wsh.SendPrevData(ws, recivedDataId)
@@ -101,7 +101,15 @@ func (wsh *AnnotatedDataCheckHandler) ReadAndWriteWebSocket(ws *websocket.Conn) 
 }
 
 func (wsh *AnnotatedDataCheckHandler) SendPrevData(ws *websocket.Conn, id int64) error {
-	carData, err := carDataDB.SelectPrevCarData(id)
+	var carData *carDataDB.CarData
+	var err error
+
+	// INFO 最後のページから前ページに戻る際に id == -1 になる
+	if id == -1 {
+		carData, err = carDataDB.SelectLatestCarData()
+	} else {
+		carData, err = carDataDB.SelectPrevCarData(id)
+	}
 
 	if err == sql.ErrNoRows {
 		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "", "")
@@ -121,7 +129,15 @@ func (wsh *AnnotatedDataCheckHandler) SendPrevData(ws *websocket.Conn, id int64)
 }
 
 func (wsh *AnnotatedDataCheckHandler) SendNextData(ws *websocket.Conn, id int64) error {
-	carData, err := carDataDB.SelectNextCarData(id)
+	var carData *carDataDB.CarData
+	var err error
+
+	// INFO 最後のページから前ページに戻る際に id == -1 になる
+	if id == -1 {
+		carData, err = carDataDB.SelectOldestCarData()
+	} else {
+		carData, err = carDataDB.SelectNextCarData(id)
+	}
 
 	if err == sql.ErrNoRows {
 		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "", "")

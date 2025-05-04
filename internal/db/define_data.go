@@ -108,6 +108,22 @@ var (
 		WHERE
 			file_name = ?;`
 
+	SelectOldestCarDataSQL = `
+		SELECT *
+		FROM car_data
+		WHERE
+			mark_flag = 1
+		ORDER BY id ASC
+		LIMIT 1;`
+
+	SelectLatestCarDataSQL = `
+		SELECT *
+		FROM car_data
+		WHERE
+			mark_flag = 1
+		ORDER BY id DESC
+		LIMIT 1;`
+
 	DeleteCarDataSQL = `
 		DELETE
 		FROM car_data
