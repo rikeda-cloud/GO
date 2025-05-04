@@ -56,7 +56,7 @@
 		"client_id": "",
 		"client_secret": "",
 		"secret_key": "",
-		"callback_url": "http://localhost:5000/callback",
+		"callback_url": "http://localhost:8000/callback",
 		"allowed_users": [
 			"rikeda-cloud"
 		]

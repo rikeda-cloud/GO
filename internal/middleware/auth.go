@@ -8,14 +8,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-cfg := config.GetConfig()
+var store *sessions.CookieStore
 
-var store = sessions.NewCookieStore([]byte(cfg.OAuth.SecretKey))
+func init() {
+	cfg := config.GetConfig()
+	store = sessions.NewCookieStore([]byte(cfg.OAuth.SecretKey))
+}
 
 func RequireLogin(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		req := c.Request()
-		res := c.Response()
+		c.Response()
 		session, _ := store.Get(req, "session-name")
 		user := session.Values["user"]
 		if user == nil {
