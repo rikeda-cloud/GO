@@ -11,6 +11,9 @@
 		},
 		"car-data-capture": {
 			"capture_interval_msec": 100
+		},
+		"data-exporter": {
+			"cloud_url": "https://cloud.com/123"
 		}
 	},
 	"database": {

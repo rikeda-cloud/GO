@@ -21,6 +21,9 @@ type Config struct {
 		CarDataCapture struct {
 			CaptureIntervalMsec time.Duration `json:"capture_interval_msec"`
 		} `json:"car-data-capture"`
+		DataExporter struct {
+			CloudURL string `json:"cloud_url"`
+		} `json:"data-exporter"`
 	} `json:"app"`
 	Database struct {
 		DBMS     string `json:"dbms"`
