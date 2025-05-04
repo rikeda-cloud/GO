@@ -54,14 +54,14 @@ func (wsh *AnnotatedDataCheckHandler) HandleAnnotatedDataCheck(c echo.Context) e
 	}
 }
 
-func SendAnnotatedData(ws *websocket.Conn, fileName string, actPoint, annotatedPoint point.Point, control, tags string) error {
+func SendAnnotatedData(ws *websocket.Conn, fileName string, actPoint, annotatedPoint point.Point, control, userName, tags string) error {
 	annotatedData := AnnotateData{
 		FileName:       fileName,
 		ActPoint:       actPoint,
 		AnnotatedPoint: annotatedPoint,
 		Control:        control,
 		Tags:           tags,
-		UserName:       "",
+		UserName:       userName,
 	}
 	data, err := json.Marshal(annotatedData)
 	if err != nil {
@@ -104,7 +104,7 @@ func (wsh *AnnotatedDataCheckHandler) SendPrevData(ws *websocket.Conn, id int64)
 	carData, err := carDataDB.SelectPrevCarData(id)
 
 	if err == sql.ErrNoRows {
-		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "")
+		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "", "")
 	}
 	if err != nil {
 		return err
@@ -117,14 +117,14 @@ func (wsh *AnnotatedDataCheckHandler) SendPrevData(ws *websocket.Conn, id int64)
 	annotatedAngle := carData.IdealSteering
 	annotatedPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, annotatedMagnitude, annotatedAngle)
 
-	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.Tags)
+	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.AnnotationUserName, carData.Tags)
 }
 
 func (wsh *AnnotatedDataCheckHandler) SendNextData(ws *websocket.Conn, id int64) error {
 	carData, err := carDataDB.SelectNextCarData(id)
 
 	if err == sql.ErrNoRows {
-		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "")
+		return SendAnnotatedData(ws, "", point.Point{X: 0, Y: 0}, point.Point{X: 0, Y: 0}, FINISH, "", "")
 	}
 	if err != nil {
 		return err
@@ -137,5 +137,5 @@ func (wsh *AnnotatedDataCheckHandler) SendNextData(ws *websocket.Conn, id int64)
 	annotatedAngle := carData.IdealSteering
 	annotatedPoint := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, annotatedMagnitude, annotatedAngle)
 
-	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.Tags)
+	return SendAnnotatedData(ws, carData.FileName, actPoint, annotatedPoint, NORMAL, carData.AnnotationUserName, carData.Tags)
 }
