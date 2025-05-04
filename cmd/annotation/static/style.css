@@ -1,144 +1,150 @@
 /* ベースのスタイル */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 /* ヘッダーのスタイル */
 h1 {
-    color: #333;
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-align: center;
+	color: #333;
+	font-size: 2em;
+	margin-bottom: 20px;
+	text-align: center;
 }
 
 /* 画像のスタイル */
 img {
-    width: 640px; /* 幅を固定 */
-    height: 480px; /* 高さを固定 */
+	width: 640px;
+	/* 幅を固定 */
+	height: 480px;
+	/* 高さを固定 */
 }
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
-    img {
-        max-width: 100%;
-    }
+	img {
+		max-width: 100%;
+	}
 
-    h1 {
-        font-size: 1.5em;
-    }
+	h1 {
+		font-size: 1.5em;
+	}
 }
 
 /* ボタンのスタイル */
 #deleteButton {
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(45deg, #6a5acd, #7b68ee);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+	padding: 10px 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+	background: linear-gradient(45deg, #6a5acd, #7b68ee);
+	border: none;
+	border-radius: 25px;
+	cursor: pointer;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+	transition: all 0.3s ease;
 }
 
 /* ボタンのホバー時 */
 #deleteButton:hover {
-    background: linear-gradient(45deg, #7b68ee, #6a5acd);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+	background: linear-gradient(45deg, #7b68ee, #6a5acd);
+	transform: translateY(-3px);
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* ボタンのクリック時 */
 #deleteButton:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+	transform: translateY(2px);
+	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* 選択UIのスタイル */
 #confirmSwitch {
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-top: 30px;
-    cursor: pointer;
+	padding: 5px 10px;
+	font-size: 14px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-top: 30px;
+	cursor: pointer;
 }
 
 #confirmModeContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 20px 0;
 }
 
 label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
 	white-space: nowrap;
 }
 
 select {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    cursor: pointer;
-    transition: border-color 0.3s;
+	padding: 8px 12px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	cursor: pointer;
+	transition: border-color 0.3s;
 }
 
 select:hover {
-    border-color: #4db8ff;
+	border-color: #4db8ff;
 }
 
 select:focus {
-    outline: none;
-    border-color: #3da1e1;
+	outline: none;
+	border-color: #3da1e1;
 }
 
 #remainContainer {
-    align-items: center;
-    justify-content: center;    /* 水平方向で中央揃え */
-    display: flex;              /* 横並びにする */
+	align-items: center;
+	justify-content: center;
+	/* 水平方向で中央揃え */
+	display: flex;
+	/* 横並びにする */
 }
 
 #remainImageCount {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #007bff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s, color 0.3s;
+	font-size: 16px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #007bff;
+	padding: 10px 20px;
+	border-radius: 5px;
+	text-align: center;
+	display: inline-block;
+	transition: background-color 0.3s, color 0.3s;
 }
 
 #remainImageCount.low {
-    background-color: #2ecc71;
-    color: #ffffff;
+	background-color: #2ecc71;
+	color: #ffffff;
 }
 
 #remainImageCount.medium {
-    background-color: #f39c12;
-    color: #ffffff;
+	background-color: #f39c12;
+	color: #ffffff;
 }
 
 #remainImageCount.high {
-    background-color: #ff4136;
-    color: #ffffff;
+	background-color: #ff4136;
+	color: #ffffff;
 }
 
-select, input[type="text"], button {
+select,
+input[type="text"],
+button {
 	width: 100%;
 	padding: 10px;
 	font-size: 1rem;
@@ -148,16 +154,17 @@ select, input[type="text"], button {
 	box-sizing: border-box;
 }
 
-select:focus, input[type="text"]:focus {
+select:focus,
+input[type="text"]:focus {
 	border-color: #007bff;
 	outline: none;
 	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 #tagContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	margin-top: 20px;
 }
 
@@ -166,71 +173,87 @@ select:focus, input[type="text"]:focus {
 }
 
 #switchModeButtons {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index:10;
-  display: flex; /* フレックスボックスでレイアウト */
-  justify-content: center; /* 横方向で中央揃え（任意） */
-  gap: 10px; /* ボタン間の間隔 */
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
+	display: flex;
+	/* フレックスボックスでレイアウト */
+	justify-content: center;
+	/* 横方向で中央揃え（任意） */
+	gap: 10px;
+	/* ボタン間の間隔 */
 }
 
 #switchModeButtons button {
-  width: 120px;
-  margin: 5px;
+	width: 120px;
+	margin: 5px;
 }
 
 #switchModeButtons button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background-color: #5db8ff;
-  color: white;
-  transition: background-color 0.3s, transform 0.2s;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+	background-color: #5db8ff;
+	color: white;
+	transition: background-color 0.3s, transform 0.2s;
 }
 
 #switchModeButtons button:hover {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 #switchModeButtons button.active {
-  background-color: #5d82ff;
-  transform: scale(1.05);
+	background-color: #5d82ff;
+	transform: scale(1.05);
 }
 
 #canvasFrame {
-    margin-top: 80px;
+	margin-top: 80px;
 }
 
 /* nextPrevButtonsを横並びにして中央に配置 */
 #nextPrevButtons {
-    display: flex;                /* 横並びにする */
-    justify-content: center;      /* 水平方向で中央揃え */
-    gap: 20px;                    /* ボタン間の隙間を指定 */
+	display: flex;
+	/* 横並びにする */
+	justify-content: center;
+	/* 水平方向で中央揃え */
+	gap: 20px;
+	/* ボタン間の隙間を指定 */
 }
 
 /* ボタンの共通スタイル */
 #nextPrevButtons button {
-    padding: 10px 20px;           /* ボタンの内側の余白 */
-    font-size: 16px;               /* フォントサイズ */
-    border: 2px solid #007bff;    /* ボタンの枠線 */
-    background-color: #007bff;    /* 背景色 */
-    color: white;                 /* 文字色 */
-    border-radius: 5px;           /* 角を丸くする */
-    cursor: pointer;             /* ポインターが指の形に */
-    transition: background-color 0.3s; /* 背景色の遷移 */
+	padding: 10px 20px;
+	/* ボタンの内側の余白 */
+	font-size: 16px;
+	/* フォントサイズ */
+	border: 2px solid #007bff;
+	/* ボタンの枠線 */
+	background-color: #007bff;
+	/* 背景色 */
+	color: white;
+	/* 文字色 */
+	border-radius: 5px;
+	/* 角を丸くする */
+	cursor: pointer;
+	/* ポインターが指の形に */
+	transition: background-color 0.3s;
+	/* 背景色の遷移 */
 }
 
 /* ボタンにホバーしたときのスタイル */
 #nextPrevButtons button:hover {
-    background-color: #0056b3;   /* ホバー時の背景色 */
+	background-color: #0056b3;
+	/* ホバー時の背景色 */
 }
 
 /* ボタンが押された時のスタイル */
 #nextPrevButtons button:active {
-    background-color: #003f7d;   /* 押された時の背景色 */
+	background-color: #003f7d;
+	/* 押された時の背景色 */
 }
