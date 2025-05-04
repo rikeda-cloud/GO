@@ -64,6 +64,7 @@ func SelectNoMarkedCarData(prevId int64) (*CarData, error) {
 		&carData.IdealSpeed,
 		&carData.IdealSteering,
 		&carData.MarkFlag,
+		&carData.AnnotationUserName,
 		&carData.Tags,
 		&carData.CreatedAt,
 	)
@@ -93,6 +94,7 @@ func SelectPredictedNoMarkedCarData(prevId int64) (*CarData, error) {
 		&carData.IdealSpeed,
 		&carData.IdealSteering,
 		&carData.MarkFlag,
+		&carData.AnnotationUserName,
 		&carData.Tags,
 		&carData.CreatedAt,
 	)
@@ -122,6 +124,7 @@ func SelectNextCarData(id int64) (*CarData, error) {
 		&carData.IdealSpeed,
 		&carData.IdealSteering,
 		&carData.MarkFlag,
+		&carData.AnnotationUserName,
 		&carData.Tags,
 		&carData.CreatedAt,
 	)
@@ -151,6 +154,7 @@ func SelectPrevCarData(id int64) (*CarData, error) {
 		&carData.IdealSpeed,
 		&carData.IdealSteering,
 		&carData.MarkFlag,
+		&carData.AnnotationUserName,
 		&carData.Tags,
 		&carData.CreatedAt,
 	)

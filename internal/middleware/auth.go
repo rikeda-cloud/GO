@@ -35,3 +35,8 @@ func SaveUserSession(c echo.Context, username string) {
 	session.Values["user"] = username
 	session.Save(req, res)
 }
+
+func GetSession(c echo.Context) (*sessions.Session, error) {
+	req := c.Request()
+	return store.Get(req, "session-name")
+}
