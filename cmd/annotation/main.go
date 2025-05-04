@@ -75,11 +75,5 @@ func main() {
 		}
 		return c.JSON(http.StatusOK, map[string]string{"user": user.(string)})
 	})
-	e.GET("/logout", func(c echo.Context) error {
-		session, _ := middleware.GetSession(c)
-		session.Options.MaxAge = -1
-		session.Save(c.Request(), c.Response())
-		return c.Redirect(http.StatusFound, "/login")
-	})
 	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }
