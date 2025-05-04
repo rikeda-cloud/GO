@@ -1,15 +1,16 @@
 package carDataDB
 
 type CarData struct {
-	ID            int
-	FileName      string
-	CarSpeed      float64
-	CarSteering   float64
-	IdealSpeed    float64
-	IdealSteering float64
-	MarkFlag      int
-	Tags          string
-	CreatedAt     string
+	ID                 int
+	FileName           string
+	CarSpeed           float64
+	CarSteering        float64
+	IdealSpeed         float64
+	IdealSteering      float64
+	MarkFlag           int
+	AnnotationUserName string
+	Tags               string
+	CreatedAt          string
 }
 
 var (
@@ -22,6 +23,7 @@ var (
 			ideal_speed REAL DEFAULT 0,
 			ideal_steering REAL DEFAULT 0,
 			mark_flag INTEGER DEFAULT 0,
+			annotation_user_name TEXT DEFAULT '',
 			tags TEXT DEFAULT '',
 			created_at TEXT DEFAULT (datetime('now'))
 		)`
@@ -43,6 +45,7 @@ var (
 			SET ideal_speed = ?,
 				ideal_steering = ?,
 				mark_flag = 1,
+				annotation_user_name = ?,
 				tags = ?
 			WHERE
 				file_name = ?;`

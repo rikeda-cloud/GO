@@ -37,13 +37,13 @@ func InsertPredictedCarData(file_name string, car_speed float64, car_steering fl
 	return err
 }
 
-func UpdateCarData(file_name string, ideal_speed, ideal_steering float64, tags string) error {
+func UpdateCarData(file_name string, ideal_speed, ideal_steering float64, annotation_user_name, tags string) error {
 	cfg := config.GetConfig()
 	db, err := sql.Open(cfg.Database.DBMS, cfg.Database.FilePath)
 	if err != nil {
 		return err
 	}
-	_, err = db.Exec(UpdateCarDataSQL, ideal_speed, ideal_steering, tags, file_name)
+	_, err = db.Exec(UpdateCarDataSQL, ideal_speed, ideal_steering, annotation_user_name, tags, file_name)
 	return err
 }
 

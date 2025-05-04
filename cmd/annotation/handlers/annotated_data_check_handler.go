@@ -30,6 +30,7 @@ type AnnotateData struct {
 	AnnotatedPoint point.Point `json:"annotated_point"`
 	Control        string      `json:"control"`
 	Tags           string      `json:"tags"`
+	UserName       string      `json:"user_name"`
 }
 
 func (wsh *AnnotatedDataCheckHandler) HandleAnnotatedDataCheck(c echo.Context) error {
@@ -60,6 +61,7 @@ func SendAnnotatedData(ws *websocket.Conn, fileName string, actPoint, annotatedP
 		AnnotatedPoint: annotatedPoint,
 		Control:        control,
 		Tags:           tags,
+		UserName:       "",
 	}
 	data, err := json.Marshal(annotatedData)
 	if err != nil {
@@ -92,7 +94,7 @@ func (wsh *AnnotatedDataCheckHandler) ReadAndWriteWebSocket(ws *websocket.Conn) 
 		clickPoint := data.AnnotatedPoint
 		magnitude := point.CalcNormalizedMagnitude(wsh.BasePoint, clickPoint, wsh.MaxDistancePoint)
 		angle := -(point.CalcAngle(wsh.BasePoint, clickPoint))
-		carDataDB.UpdateCarData(data.FileName, magnitude, angle, data.Tags)
+		carDataDB.UpdateCarData(data.FileName, magnitude, angle, data.UserName, data.Tags)
 	case NEXT:
 	}
 	return wsh.SendNextData(ws, recivedDataId)

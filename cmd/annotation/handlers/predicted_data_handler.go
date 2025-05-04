@@ -89,11 +89,13 @@ func (wsh *PredictedDataHandler) ReadFromWebSocket(ws *websocket.Conn) error {
 	angle := -(point.CalcAngle(wsh.BasePoint, clickPoint))
 	reverse := point.ReverseCalculate(wsh.BasePoint, wsh.MaxDistancePoint, magnitude, angle)
 	tags := data.Tags
+	userName := data.UserName
 
 	fmt.Println("magnitude: ", magnitude)
 	fmt.Println("Angle    : ", int(angle))
 	fmt.Println("reverse  : ", reverse)
 	fmt.Println("tags     : ", tags)
+	fmt.Println("UserName : ", userName)
 
-	return carDataDB.UpdateCarData(data.FileName, magnitude, angle, tags)
+	return carDataDB.UpdateCarData(data.FileName, magnitude, angle, userName, tags)
 }

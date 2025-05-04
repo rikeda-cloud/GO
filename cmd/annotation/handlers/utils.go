@@ -20,6 +20,7 @@ type ImageMarkData struct {
 	Point    point.Point `json:"point"`
 	Control  string      `json:"control"`
 	Tags     string      `json:"tags"`
+	UserName string      `json:"user_name"`
 }
 
 type RemainImageCountData struct {
@@ -33,6 +34,7 @@ func SendCarData(ws *websocket.Conn, fileName string, point point.Point, control
 		Point:    point,
 		Control:  control,
 		Tags:     "",
+		UserName: "",
 	}
 	data, err := json.Marshal(sendData)
 	if err != nil {
