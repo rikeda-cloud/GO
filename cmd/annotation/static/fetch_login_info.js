@@ -15,3 +15,5 @@ function fetchLoginInfo() {
 			window.location.href = "/login";
 		});
 }
+
+fetchLoginInfo();
