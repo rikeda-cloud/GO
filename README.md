@@ -10,6 +10,7 @@
 │   ├── annotation/           # アノテーションツール（Webベース）
 │   ├── car-data-capture/     # データ収集アプリケーション
 │   ├── streaming/            # 画像ストリーミング・特徴量抽出画像の可視化機能
+│   ├── data-exporter/        # 収集したデータをクラウドへ送信
 │   └── ip-notify/            # IPアドレス通知
 ├── internal/                 # 共通ライブラリ（DB, WebSocket, config, etc）
 ├── images/                   # 保存された画像データ(仮置きした画像を含む)
@@ -71,6 +72,8 @@ go build ./cmd/streaming/main.go
 収集済み画像と車体データを元に、学習用アノテーションデータを作成できます。
 
 ```bash
+config/config.json内のoauthのパラメータを適切な値に設定
+
 go build ./cmd/annotation/main.go
 ./main
 # → ブラウザで http://localhost:8000 にアクセス
@@ -93,4 +96,14 @@ sudo chcon -t bin_t /usr/local/bin/ip-notify
 ```
 sudo cp ip_address_notify/ip-notify.service /etc/systemd/system/ip-notify.service
 sudo systemctl enable ip-notify.service
+```
+
+### 5️⃣ クラウドへのデータ送信
+アノテーション済みの車体データや画像から抽出した特徴量等をクラウドへ送信します
+
+```bash
+config/config.json内のapp::data-exporter::cloud_urlを適切な値に設定
+
+go build ./cmd/data-exporter/main.go
+./main
 ```
