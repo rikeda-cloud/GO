@@ -99,6 +99,7 @@ class AnnotationWsHandler {
 			point: { X: -1, Y: -1 },
 			control: "DELETE",
 			tags: this.tags.getSelectedTag(),
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(deleteData));
 	}
@@ -128,6 +129,7 @@ class AnnotationWsHandler {
 			},
 			control: "NORMAL",
 			tags: this.tags.getSelectedTag(),
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(clickData));
 	}

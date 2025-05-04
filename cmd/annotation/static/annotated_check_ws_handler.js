@@ -108,6 +108,7 @@ class AnnotatedCheckWsHandler {
 			annotated_point: { X: -1, Y: -1 },
 			control: "DELETE",
 			tags: this.tags,
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(deleteData));
 	}
@@ -119,6 +120,7 @@ class AnnotatedCheckWsHandler {
 			annotated_point: { X: -1, Y: -1 },
 			control: "NEXT",
 			tags: this.tags,
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(toNextData));
 	}
@@ -130,6 +132,7 @@ class AnnotatedCheckWsHandler {
 			annotated_point: { X: -1, Y: -1 },
 			control: "PREV",
 			tags: this.tags,
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(toPrevData));
 	}
@@ -157,6 +160,7 @@ class AnnotatedCheckWsHandler {
 			annotated_point: { x: clickX, y: clickX },
 			control: "NORMAL",
 			tags: this.tags,
+			user_name: sessionStorage.getItem("username"),
 		};
 		this.ws.send(JSON.stringify(clickData));
 	}

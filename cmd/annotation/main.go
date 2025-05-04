@@ -67,5 +67,19 @@ func main() {
 	authGroup.GET("/ws/predict-remain-count", handlers.NewPredictedRemainImageCountHandler().HandlePredictedRemainImageCount)
 	authGroup.GET("/ws/check", handlers.NewAnnotatedDataCheckHandler().HandleAnnotatedDataCheck)
 	authGroup.GET("/ws/ai", handlers.NewPredictedDataHandler().HandlePredictedData)
+	e.GET("/api/user", func(c echo.Context) error {
+		session, _ := middleware.GetSession(c)
+		user := session.Values["user"]
+		if user == nil {
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "unauthenticated"})
+		}
+		return c.JSON(http.StatusOK, map[string]string{"user": user.(string)})
+	})
+	e.GET("/logout", func(c echo.Context) error {
+		session, _ := middleware.GetSession(c)
+		session.Options.MaxAge = -1
+		session.Save(c.Request(), c.Response())
+		return c.Redirect(http.StatusFound, "/login")
+	})
 	e.Logger.Fatal(e.Start(cfg.App.Annotation.Port))
 }
