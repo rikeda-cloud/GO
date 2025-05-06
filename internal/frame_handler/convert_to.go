@@ -139,3 +139,18 @@ func ConvertToSift(frame *gocv.Mat) gocv.Mat {
 
 	return siftFrame
 }
+
+// INFO AKAZE特徴量抽出を行い、画像にプロット
+func ConvertToAKAZE(frame *gocv.Mat) gocv.Mat {
+	akaze := gocv.NewAKAZE()
+	defer akaze.Close()
+
+	keypoints, _ := akaze.DetectAndCompute(*frame, gocv.NewMat())
+
+	akazeFrame := frame.Clone()
+	for _, kp := range keypoints {
+		pt := image.Pt(int(kp.X), int(kp.Y))
+		gocv.Circle(&akazeFrame, pt, 2, color.RGBA{255, 0, 0, 0}, 2)
+	}
+	return akazeFrame
+}

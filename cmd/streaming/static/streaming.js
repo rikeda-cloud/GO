@@ -15,6 +15,7 @@ const buttonConfigs = [
 	{ label: "Binary", value: "6" },
 	{ label: "HaarLike", value: "7" },
 	{ label: "Sift", value: "8" },
+	{ label: "AKAZE", value: "9" },
 ]
 
 const frameHandlerDiv = document.getElementById("frame-handler-buttons");

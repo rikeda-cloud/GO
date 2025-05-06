@@ -114,6 +114,8 @@ func (wsh *ImageStreamingHandler) ChangeFrameHandler(handler_number string) {
 		wsh.frame_handler = frameHandler.ConvertToHaarLike
 	case "8":
 		wsh.frame_handler = frameHandler.ConvertToSift
+	case "9":
+		wsh.frame_handler = frameHandler.ConvertToAKAZE
 	default:
 		wsh.frame_handler = frameHandler.ConvertToHough
 	}
