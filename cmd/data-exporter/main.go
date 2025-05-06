@@ -42,6 +42,8 @@ func main() {
 		// INFO 一定時間遅延
 		time.Sleep(cfg.App.DataExporter.ExportDelayMsec * time.Millisecond)
 
+		fmt.Printf("ID: %d | 送信済み: %d 件\n", data.ID, total+1)
+
 		id = data.ID
 		total++
 	}
