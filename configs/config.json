@@ -13,8 +13,9 @@
 			"capture_interval_msec": 100
 		},
 		"data-exporter": {
-			"cloud_url": "https://discord.com/api/webhooks/1111111",
-			"export_delay_msec": 100
+			"cloud_url": "https://discord.com/api/webhooks/1",
+			"export_delay_msec": 100,
+			"json_file": "export_data.json"
 		}
 	},
 	"database": {
