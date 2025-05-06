@@ -121,3 +121,21 @@ func ConvertToHaarLike(frame *gocv.Mat) gocv.Mat {
 
 	return resultFrame
 }
+
+// INFO SIFT特徴量抽出を行い、画像にプロット
+func ConvertToSift(frame *gocv.Mat) gocv.Mat {
+	sift := gocv.NewSIFT()
+	defer sift.Close()
+
+	kps, _ := sift.DetectAndCompute(*frame, gocv.NewMat())
+
+	// 特徴点が1つもなければそのまま返す
+	if len(kps) == 0 {
+		return *frame
+	}
+
+	siftFrame := gocv.NewMat()
+	gocv.DrawKeyPoints(*frame, kps, &siftFrame, color.RGBA{R: 0, G: 255, B: 0, A: 0}, 4)
+
+	return siftFrame
+}

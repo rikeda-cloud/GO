@@ -14,6 +14,7 @@ const buttonConfigs = [
 	{ label: "Filter", value: "5" },
 	{ label: "Binary", value: "6" },
 	{ label: "HaarLike", value: "7" },
+	{ label: "Sift", value: "8" },
 ]
 
 const frameHandlerDiv = document.getElementById("frame-handler-buttons");
