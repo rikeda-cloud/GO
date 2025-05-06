@@ -13,6 +13,7 @@ import (
 
 func main() {
 	cfg := config.GetConfig()
+	exportFunc := exporter.GetExportFunc()
 	id := 0 // INFO 最小のidを初期値として使用
 
 	total := 0 // INFO 送信したデータレコード数
@@ -33,7 +34,7 @@ func main() {
 		values := frameHandler.CalcHaarValues(&img, cfg.Frame.HaarLike.Divisions, cfg.Frame.HaarLike.RectHeight)
 		img.Close()
 
-		if err := exporter.ExportToCloud(data, values); err != nil {
+		if err := exportFunc(data, values); err != nil {
 			fmt.Printf("データのExportに失敗: %s\n", err)
 			break
 		}
