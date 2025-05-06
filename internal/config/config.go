@@ -25,6 +25,7 @@ type Config struct {
 			CloudURL        string        `json:"cloud_url"`
 			ExportDelayMsec time.Duration `json:"export_delay_msec"`
 			JsonFile        string        `json:"json_file"`
+			ExportTo        string        `json:"export_to"`
 		} `json:"data-exporter"`
 	} `json:"app"`
 	Database struct {
